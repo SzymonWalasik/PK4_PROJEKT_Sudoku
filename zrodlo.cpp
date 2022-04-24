@@ -2,81 +2,23 @@
 #include <functional>
 #include <time.h>
 #include <Windows.h>
-#include <ranges>
-#include <SFML/Graphics.hpp>
-#include "GridController.h"
-#include "Button.h"
-#include "Difficult.h"
-#include "IDrawable.h"
-#include "Globals.h"
+#include "Initilize.h"
 
 using namespace std;
 using namespace placeholders;
 
 vector<IDrawable*> objectsToDraw;
 
-void LoadFont(sf::Font & font)
-{
-	if (font.loadFromFile(fontPath + fontNameBold)) {
-		std::cout << "Loaded Font successful!" << std::endl;
-	}
-}
-
-void SetWinText(const sf::Font& font, sf::Text* winText)
-{
-	winText->setFont(font);
-	winText->setFillColor(sf::Color::Black);
-	winText->setCharacterSize(46);
-	winText->setString("SUDOKU");
-	winText->setPosition(sf::Vector2f(800, 50));
-}
-
-void DrawsAndDisplayObjectsToDraw(sf::Window)
-{
-
-}
-Button* DrawDifficultyButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC)
-{
-	Button* difficultyButton = new Button(window, renderStates, "Easy", sf::Vector2f(1000, 560), sf::Vector2f(200, 64));
-	difficultyButton->Click += bind(&GridController::ChangeDifficult, gridC);
-	objectsToDraw.push_back(difficultyButton);
-	return difficultyButton;
-}
-
-Button* DrawMixButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC)
-{
-	Button* mixButton = new Button(window, renderStates, "Mix", sf::Vector2f(1000, 490), sf::Vector2f(200, 64));
-	mixButton->Click += bind(&GridController::Mix, gridC);
-	objectsToDraw.push_back(mixButton);
-	return mixButton;
-}
-
-void SetsOutline(sf::RectangleShape line1, sf::RectangleShape line2, sf::RectangleShape line3, sf::RectangleShape line4)
-{
-	line1.setPosition(upperLeftCornerX, 3 * 64 + upperLeftCornerY - 2);
-	line2.setPosition(upperLeftCornerX, 6 * 64 + upperLeftCornerY - 2);
-	line3.setPosition(3 * 64 + upperLeftCornerX - 2, upperLeftCornerY);
-	line4.setPosition(6 * 64 + upperLeftCornerX - 2, upperLeftCornerY);
-	line1.setFillColor(sf::Color::Black);
-	line2.setFillColor(sf::Color::Black);
-	line3.setFillColor(sf::Color::Black);
-	line4.setFillColor(sf::Color::Black);
-}
-
-
 int main()
 {
-	//srand(time(0)); 
-	//FreeConsole();
-
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Sudoku"); 
 	sf::RenderStates* renderStates = new sf::RenderStates(); 
 
 	// set font and window text
 	sf::Text* winText = new sf::Text();
 	sf::Font font;
-	LoadFont(font); 
-	SetWinText(font, winText);
+	Initialize::LoadFont(font); 
+	Initialize::SetWinText(font, winText);
 
 	// set the grid controller 
 	// this controlelr draws cells and generate numbers
@@ -87,11 +29,11 @@ int main()
 	sf::RectangleShape line2(sf::Vector2f(9 * 64, 4));
 	sf::RectangleShape line3(sf::Vector2f(4, 9 * 64));
 	sf::RectangleShape line4(sf::Vector2f(4, 9 * 64));
-	SetsOutline(line1, line2, line3, line4);
+	Initialize::SetsOutline(line1, line2, line3, line4);
 
 	// draws buttons
-	Button* mixButton = DrawMixButton(window, renderStates, gridC);
-	Button* difficultyButton = DrawDifficultyButton(window, renderStates, gridC);
+	Button* mixButton = Initialize::DrawMixButton(window, renderStates, gridC, objectsToDraw);
+	Button* difficultyButton = Initialize::DrawDifficultyButton(window, renderStates, gridC, objectsToDraw);
 	
 
 	while (window->isOpen()) 

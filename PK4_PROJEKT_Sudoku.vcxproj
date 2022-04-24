@@ -166,6 +166,7 @@
     <ClCompile Include="Difficult.cpp" />
     <ClCompile Include="GridController.cpp" />
     <ClCompile Include="IDrawable.cpp" />
+    <ClCompile Include="Initialize.cpp" />
     <ClCompile Include="zrodlo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +178,7 @@
     <ClInclude Include="Globals.h" />
     <ClInclude Include="GridController.h" />
     <ClInclude Include="IDrawable.h" />
+    <ClInclude Include="Initilize.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
