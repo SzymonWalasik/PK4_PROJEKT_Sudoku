@@ -21,7 +21,7 @@ Button::Button(sf::RenderWindow* _window, sf::RenderStates* _renderStates, std::
 	caption.setCharacterSize(25);
 	caption.setString(_caption);
 	sf::FloatRect b = caption.getGlobalBounds(); 
-	caption.setPosition(shape.getPosition().x + shape.getSize().x / 2 - b.width / 2, shape.getPosition().y + b.height); 
+	caption.setPosition(shape.getPosition().x + shape.getSize().x / 2 - b.width / 2, shape.getPosition().y + b.height/ 1.3); 
 
 	collider.position = shape.getPosition(); 
 	collider.size = shape.getSize(); 

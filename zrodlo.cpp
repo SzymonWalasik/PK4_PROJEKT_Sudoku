@@ -11,7 +11,7 @@ vector<IDrawable*> objectsToDraw;
 
 int main()
 {
-	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Sudoku"); 
+	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Sudoku");  
 	sf::RenderStates* renderStates = new sf::RenderStates(); 
 
 	// set font and window text
@@ -21,7 +21,7 @@ int main()
 	Initialize::SetWinText(font, winText);
 
 	// set the grid controller 
-	// this controlelr draws cells and generate numbers
+	// this controler draws cells and generate numbers
 	GridController* gridC = new GridController(window, renderStates, winText);
 
 	// draws outline
@@ -34,6 +34,7 @@ int main()
 	// draws buttons
 	Button* mixButton = Initialize::DrawMixButton(window, renderStates, gridC, objectsToDraw);
 	Button* difficultyButton = Initialize::DrawDifficultyButton(window, renderStates, gridC, objectsToDraw);
+	Button* hintButton = Initialize::DrawHintButton(window, renderStates, gridC, objectsToDraw);
 	
 
 	while (window->isOpen()) 
@@ -55,6 +56,7 @@ int main()
 			gridC->ProcessEvent(event); 
 			mixButton->ProcessEvent(event); 
 			difficultyButton->ProcessEvent(event); 
+			hintButton->ProcessEvent(event);
 
 			switch (gridC->difficultGame) 
 			{

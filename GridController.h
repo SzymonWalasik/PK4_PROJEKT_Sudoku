@@ -37,5 +37,7 @@ public:
 	void Mix(); 
 
 	void ChangeDifficult(); 
+
+	void Hint();
 };
 

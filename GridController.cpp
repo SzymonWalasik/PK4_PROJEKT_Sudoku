@@ -179,6 +179,17 @@ void GridController::Mix()
 		}
 	}
 }
+void GridController::Hint(){
+	/*for (int y = 0; y < 9; y++)
+	{
+		for (int x = 0; x < 9; x++)
+		{
+			if (matrix[y][x]->UnLock()&&) {
+
+			}
+		}
+	}*/
+}
 
 void GridController::Transposion()
 {

@@ -31,6 +31,13 @@
 		objectsToDraw.push_back(mixButton);
 		return mixButton;
 	}
+	Button* Initialize::DrawHintButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*>& objectsToDraw)
+	{
+		Button* hintButton = new Button(window, renderStates, "Hint", sf::Vector2f(1000, 420), sf::Vector2f(200, 64));
+		hintButton->Click += bind(&GridController::Hint, gridC);
+		objectsToDraw.push_back(hintButton);
+		return hintButton;
+	}
 
 	void Initialize::SetsOutline(sf::RectangleShape line1, sf::RectangleShape line2, sf::RectangleShape line3, sf::RectangleShape line4)
 	{
