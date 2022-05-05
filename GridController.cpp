@@ -189,6 +189,7 @@ void GridController::Hint(){
 			if (matrix[y][x]->IsLock()== false && matrix[y][x]->GetUserNumber() == 0) {
 				matrix[y][x]->SetUserNumber(matrix[y][x]->correctValue);
 				hintCounter++;
+				CheckWin();
 				return;
 			}
 		}
