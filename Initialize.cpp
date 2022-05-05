@@ -39,7 +39,7 @@
 		return hintButton;
 	}
 
-	void Initialize::SetsOutline(sf::RectangleShape line1, sf::RectangleShape line2, sf::RectangleShape line3, sf::RectangleShape line4)
+	void Initialize::SetsOutline(sf::RectangleShape & line1, sf::RectangleShape & line2, sf::RectangleShape & line3, sf::RectangleShape & line4)
 	{
 		line1.setPosition(upperLeftCornerX, 3 * 64 + upperLeftCornerY - 2);
 		line2.setPosition(upperLeftCornerX, 6 * 64 + upperLeftCornerY - 2);

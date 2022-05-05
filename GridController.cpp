@@ -144,6 +144,7 @@ void GridController::ChangeDifficult()		//kolejnosc poziomow trudnosci przy zmia
 
 void GridController::Mix()
 {
+	winText->setString("SUDOKU");
 	for (int y = 0; y < 9; y++) 
 	{
 		for (int x = 0; x < 9; x++)
@@ -180,15 +181,19 @@ void GridController::Mix()
 	}
 }
 void GridController::Hint(){
-	/*for (int y = 0; y < 9; y++)
+	int hintCounter = 0;
+	for (int y = 0; y < 9; y++)
 	{
 		for (int x = 0; x < 9; x++)
 		{
-			if (matrix[y][x]->UnLock()&&) {
-
+			if (matrix[y][x]->IsLock()== false && matrix[y][x]->GetUserNumber() == 0) {
+				matrix[y][x]->SetUserNumber(matrix[y][x]->correctValue);
+				hintCounter++;
+				return;
 			}
 		}
-	}*/
+
+	}
 }
 
 void GridController::Transposion()
