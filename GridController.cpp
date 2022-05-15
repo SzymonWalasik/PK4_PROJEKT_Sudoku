@@ -84,7 +84,7 @@ void GridController::ProcessEvent(sf::Event event)
 
 void GridController::CheckWin()
 {
-	auto isCorrect = [=](Cell* cell)
+	auto isCorrect = [&](Cell* cell)
 	{
 		int x = cell->GetXMatrixPosition();
 		int y = cell->GetYMatrixPosition();

@@ -3,6 +3,7 @@
 #include <ranges>
 #include <vector>
 #include <string>
+#include <functional>
 #include "Cell.h"
 #include "Difficult.h"
 #include "IDrawable.h"
@@ -15,9 +16,6 @@ private:
 	sf::Text* winText;
 
 	Cell* matrix[9][9]; 
-
-	bool IsCorrectNumber(int x, int y); 
-
 	
 	void Transposion(); 
 	void SwapRowsSmall(); 
@@ -29,7 +27,7 @@ public:
 	Difficult difficultGame; 
 
 	GridController(sf::RenderWindow* _window, sf::RenderStates* _renderStates, sf::Text* _winText); 
-
+	
 	void ProcessEvent(sf::Event event); 
 
 	void CheckWin(); 
