@@ -52,6 +52,22 @@ void Cell::SetPosition(sf::Vector2f newPos)
 	caption.setPosition(shape.getPosition().x + shape.getSize().x / 2 - b.width / 2, shape.getPosition().y + b.height);
 }
 
+void Cell::SetMatrixPosition(int y, int x)
+{
+	positionX = x;
+	positionY = y;
+}
+
+int Cell::GetXMatrixPosition()
+{
+	return positionX;
+}
+
+int Cell::GetYMatrixPosition()
+{
+	return positionY;
+}
+
 void Cell::SetUserNumber(int value)
 {
 	if (isBlocked) return; 

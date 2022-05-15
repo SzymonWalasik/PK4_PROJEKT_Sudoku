@@ -24,6 +24,7 @@ GridController::GridController(sf::RenderWindow* _window, sf::RenderStates* _ren
 			matrix[y][x]->correctValue = n;
 			matrix[y][x]->SetUserNumber(n);
 			matrix[y][x]->SetPosition(sf::Vector2f(x * 64 + upperLeftCornerX, y * 64 + upperLeftCornerY));
+			matrix[y][x]->SetMatrixPosition(y, x);
 			objectsToDraw.push_back(matrix[y][x]); 
 		}
 	}
@@ -81,49 +82,52 @@ void GridController::ProcessEvent(sf::Event event)
 	}
 }
 
-bool GridController::IsCorrectNumber(int x, int y)
-{
-	int checkingNum = matrix[y][x]->GetUserNumber();
-	int offsetX = x - (x % 3); 
-	int offsetY = y - (y % 3);
-
-	for (int i = 0; i < 9; i++) 
-	{
-		if (i != x && checkingNum == matrix[y][i]->GetUserNumber()) 
-			return false;
-		if (i != y && checkingNum == matrix[i][x]->GetUserNumber()) 
-			return false;
-		if (((i / 3 + offsetY) != y || (i % 3 + offsetX) != x) && 
-			checkingNum == matrix[i / 3 + offsetY][i % 3 + offsetX]->GetUserNumber())
-			return false;
-	}
-	return true; 
-}
-
-//auto correct = [](Cell* i) 
-//{ 
-//	return !GridController::IsCorrectNumber(x, y);;
-//};
-
 void GridController::CheckWin()
 {
-	bool res = true; 
-	for (int y = 0; y < 9; y++) 
+	auto isCorrect = [=](Cell* cell)
 	{
-		for (int x = 0; x < 9; x++)
-		{
-			bool fail = !IsCorrectNumber(x, y); 
-			matrix[y][x]->SetFail(fail); 
+		int x = cell->GetXMatrixPosition();
+		int y = cell->GetYMatrixPosition();
+		int checkingNum = matrix[y][x]->GetUserNumber();
+		int offsetX = x - (x % 3);
+		int offsetY = y - (y % 3);
 
-			if (fail || matrix[y][x]->GetUserNumber() == 0) 
-				res = false; 
+		for (int i = 0; i < 9; i++)
+		{
+			if (i != x && checkingNum == matrix[y][i]->GetUserNumber())
+			{
+				matrix[y][x]->SetFail(true);
+				return false;
+			}
+			if (i != y && checkingNum == matrix[i][x]->GetUserNumber())
+			{
+				matrix[y][x]->SetFail(true);
+				return false;
+			}
+			if (((i / 3 + offsetY) != y || (i % 3 + offsetX) != x) &&
+				checkingNum == matrix[i / 3 + offsetY][i % 3 + offsetX]->GetUserNumber())
+			{
+				matrix[y][x]->SetFail(true);
+				return false;
+			}
+		}
+		matrix[y][x]->SetFail(false);
+		return true;
+	};
+
+	bool res = true;
+	for (auto& row : matrix)
+	{
+		for (auto ele : row | std::views::transform(isCorrect))
+		{
+			if (!ele)
+				res = false;
 		}
 	}
 
-	// win
-	if (res) 
+	if (res)
 	{
-		std::cout << "Win game" << std::endl; 
+		std::cout << "Win game" << std::endl;
 		winText->setString("You WON!!!");
 	}
 }

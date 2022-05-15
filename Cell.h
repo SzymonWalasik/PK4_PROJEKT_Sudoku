@@ -15,6 +15,8 @@ private:
 	sf::Texture texture;
 	sf::Text caption;
 	sf::Font font;
+	int positionX;
+	int positionY;
 
 	int userValue; 
 	bool isFailed; 
@@ -23,7 +25,8 @@ private:
 public:
 	int correctValue; 
 	Collider collider; 
-
+	int GetXMatrixPosition();
+	int GetYMatrixPosition();
 	
 	Cell() {}
 	Cell(sf::RenderWindow* _window, sf::RenderStates* _renderStates, std::string pathTexture, sf::Vector2f size);
@@ -31,6 +34,8 @@ public:
 	virtual void Draw();
 
 	void SetPosition(sf::Vector2f newPos); 
+	void SetMatrixPosition(int y, int x);
+
 	void SetUserNumber(int value); 
 	int GetUserNumber(); 
 	void SetFail(bool state); 
