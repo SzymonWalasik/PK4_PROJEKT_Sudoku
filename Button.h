@@ -15,8 +15,6 @@ private:
 	sf::RectangleShape shape;
 	sf::Texture texture; 
 	sf::Font font; 
-	sf::RectangleShape button;
-	sf::Text text;
 
 	int btnWidth;
 	int btnHeight;
@@ -34,8 +32,8 @@ public:
 	sf::Text caption; 
 
 	Button() {}
-	Button(sf::RenderWindow* _window, sf::RenderStates* _renderStates, std::string _caption, sf::Vector2f pos, sf::Vector2f size);
-	Button(std::string btnText, sf::Vector2f buttonSize, int charSize, sf::Color bgColor, sf::Color textColor);
+	Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f pos, sf::Vector2f size, sf::RenderStates* _renderStates = nullptr);
+	Button(sf::RenderWindow* _window, std::string caption, sf::Vector2f buttonSize, int charSize, sf::Color bgColor, sf::Color textColor);
 
 	void ProcessEvent(sf::Event event); 
 

@@ -1,7 +1,7 @@
 #include"Button.h"
 
 
-Button::Button(sf::RenderWindow* _window, sf::RenderStates* _renderStates, std::string _caption, sf::Vector2f pos, sf::Vector2f size)
+Button::Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f pos, sf::Vector2f size, sf::RenderStates* _renderStates)
 {
 	window = _window;
 	renderStates = _renderStates;
@@ -26,52 +26,53 @@ Button::Button(sf::RenderWindow* _window, sf::RenderStates* _renderStates, std::
 	collider.position = shape.getPosition(); 
 	collider.size = shape.getSize(); 
 }
-Button::Button(std::string btnText, sf::Vector2f buttonSize, int charSize, sf::Color bgColor, sf::Color textColor) {
-	button.setSize(buttonSize);
-	button.setFillColor(bgColor);
+Button::Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f buttonSize, int charSize, sf::Color bgColor, sf::Color textColor) {
+	window = _window;
+	shape.setSize(buttonSize);
+	shape.setFillColor(bgColor);
 
 	// Get these for later use:
 	btnWidth = buttonSize.x;
 	btnHeight = buttonSize.y;
 
-	text.setString(btnText);
-	text.setCharacterSize(charSize);
-	text.setFillColor(textColor);
+	caption.setString(_caption);
+	caption.setCharacterSize(charSize);
+	caption.setFillColor(textColor);
 }
 void Button::setFont(sf::Font& fonts) {
-	text.setFont(fonts);
+	caption.setFont(fonts);
 }
 
 void Button::setBackColor(sf::Color color) {
-	button.setFillColor(color);
+	shape.setFillColor(color);
 }
 
 void Button::setTextColor(sf::Color color) {
-	text.setFillColor(color);
+	caption.setFillColor(color);
 }
 
 void Button::setPosition(sf::Vector2f point) {
-	button.setPosition(point);
+	shape.setPosition(point);
 
-	float xPos = (point.x + btnWidth / 2) - (text.getLocalBounds().width / 2);
-	float yPos = (point.y + btnHeight / 2.2) - (text.getLocalBounds().height / 2);
-	text.setPosition(xPos, yPos);
+	float xPos = (point.x + btnWidth / 2) - (caption.getLocalBounds().width / 2);
+	float yPos = (point.y + btnHeight / 2.2) - (caption.getLocalBounds().height / 2);
+	caption.setPosition(xPos, yPos);
 }
 
 void Button::drawTo(sf::RenderWindow& window) {
-	window.draw(button);
-	window.draw(text);
+	window.draw(shape);
+	window.draw(caption);
 }
 
 bool Button::isMouseOver(sf::RenderWindow& window) {
 	int mouseX = sf::Mouse::getPosition(window).x;
 	int mouseY = sf::Mouse::getPosition(window).y;
 
-	int btnPosX = button.getPosition().x;
-	int btnPosY = button.getPosition().y;
+	int btnPosX = shape.getPosition().x;
+	int btnPosY = shape.getPosition().y;
 
-	int btnxPosWidth = button.getPosition().x + btnWidth;
-	int btnyPosHeight = button.getPosition().y + btnHeight;
+	int btnxPosWidth = shape.getPosition().x + btnWidth;
+	int btnyPosHeight = shape.getPosition().y + btnHeight;
 
 	if (mouseX < btnxPosWidth && mouseX > btnPosX && mouseY < btnyPosHeight && mouseY > btnPosY) {
 		return true;

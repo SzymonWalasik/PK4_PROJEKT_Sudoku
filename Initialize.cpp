@@ -36,7 +36,7 @@
 
 	Button* Initialize::DrawDifficultyButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*> & objectsToDraw)
 	{
-		Button* difficultyButton = new Button(window, renderStates, "Easy", sf::Vector2f(1000, 560), sf::Vector2f(200, 64));
+		Button* difficultyButton = new Button(window, "Easy", sf::Vector2f(1000, 560), sf::Vector2f(200, 64), renderStates);
 		difficultyButton->Click += bind(&GridController::ChangeDifficult, gridC);
 		objectsToDraw.push_back(difficultyButton);
 		return difficultyButton;
@@ -44,14 +44,14 @@
 
 	Button* Initialize::DrawMixButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*> & objectsToDraw)
 	{
-		Button* mixButton = new Button(window, renderStates, "Mix", sf::Vector2f(1000, 490), sf::Vector2f(200, 64));
+		Button* mixButton = new Button(window, "Mix", sf::Vector2f(1000, 490), sf::Vector2f(200, 64), renderStates);
 		mixButton->Click += bind(&GridController::Mix, gridC);
 		objectsToDraw.push_back(mixButton);
 		return mixButton;
 	}
 	Button* Initialize::DrawHintButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*>& objectsToDraw)
 	{
-		Button* hintButton = new Button(window, renderStates, "Hint", sf::Vector2f(1000, 420), sf::Vector2f(200, 64));
+		Button* hintButton = new Button(window, "Hint", sf::Vector2f(1000, 420), sf::Vector2f(200, 64), renderStates);
 		hintButton->Click += bind(&GridController::Hint, gridC);
 		objectsToDraw.push_back(hintButton);
 		return hintButton;
@@ -59,7 +59,7 @@
 
 	Button* Initialize::DrawSaveResultsButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*>& objectsToDraw)
 	{
-		Button* saveResultButton = new Button(window, renderStates, "Save Result", sf::Vector2f(1000, 350), sf::Vector2f(200, 64));
+		Button* saveResultButton = new Button(window, "Save Result", sf::Vector2f(1000, 350), sf::Vector2f(200, 64), renderStates);
 		saveResultButton->Click += bind(&GridController::SaveResult, gridC);
 		objectsToDraw.push_back(saveResultButton);
 		return saveResultButton;

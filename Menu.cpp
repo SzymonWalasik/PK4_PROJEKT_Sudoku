@@ -114,15 +114,9 @@ void Menu::init() {
 			}
 			case 1:
 			{
-				Button play("Play", { 200, 80 }, 30, sf::Color::Color(0,12,123), sf::Color::White);
-				play.setFont(font);
-				play.setPosition({ 220, 300 });
-				Button leaderboard("Leaderboard", { 200, 80 }, 30, sf::Color::Color(0, 12, 123), sf::Color::White);
-				leaderboard.setFont(font);
-				leaderboard.setPosition({ 220, 400 });
-				Button exit("Exit", { 200, 80 }, 30, sf::Color::Color(0, 12, 123), sf::Color::White);
-				exit.setFont(font);
-				exit.setPosition({ 220, 500 });
+				Button play(window, "Play", sf::Vector2f(220, 300), sf::Vector2f(200, 64));
+				Button scoreTable(window, "Score table", sf::Vector2f(220, 400), sf::Vector2f(200, 64));
+				Button exit(window, "Exit", sf::Vector2f(220, 500), sf::Vector2f(200, 64));
 				while (window->pollEvent(event))
 				{
 					switch (event.type)
@@ -131,37 +125,12 @@ void Menu::init() {
 						{
 							window->close();
 						}
-						case sf::Event::MouseMoved:
-						{
-							if (play.isMouseOver(refWindow)) {
-								play.setBackColor(sf::Color::Color(255, 201, 14));
-								play.setTextColor(sf::Color::Black);
-							}
-							else {
-								play.setBackColor(sf::Color::Color(0, 12, 123));
-							}
-							if (leaderboard.isMouseOver(refWindow)) {
-								leaderboard.setBackColor(sf::Color::Color(255, 201, 14));
-								leaderboard.setTextColor(sf::Color::Black);
-							}
-							else {
-								leaderboard.setBackColor(sf::Color::Color(0, 12, 123));
-							}
-							if (exit.isMouseOver(refWindow)) {
-								exit.setBackColor(sf::Color::Color(255, 201, 14));
-								exit.setTextColor(sf::Color::Black);
-							}
-							else {
-								exit.setBackColor(sf::Color::Color(0, 12, 123));
-							}
-							break;
-						}
 						case sf::Event::MouseButtonPressed:
 						{
 							if (play.isMouseOver(refWindow)) {
 								MenuState = 3;
 							}
-							if (leaderboard.isMouseOver(refWindow)) {
+							if (scoreTable.isMouseOver(refWindow)) {
 								MenuState = 2;
 							}
 							if (exit.isMouseOver(refWindow)) {
@@ -172,7 +141,7 @@ void Menu::init() {
 					window->clear(sf::Color::White);
 					window->draw(fail);
 					play.drawTo(refWindow);
-					leaderboard.drawTo(refWindow);
+					scoreTable.drawTo(refWindow);
 					exit.drawTo(refWindow);
 					window->display();
 				}
@@ -197,15 +166,13 @@ void Menu::init() {
 			case 4:
 			{
 				window->setView(view);
-				//sprite.setTexture(texture);
-				//sprite.setPosition(0, 0);
-				Button play("Play Again", { 100, 60 }, 16, sf::Color::Color(0, 12, 123), sf::Color::White);
+				Button play(window, "Play Again", { 100, 60 }, 16, sf::Color::Color(0, 12, 123), sf::Color::White);
 				play.setFont(font);
 				play.setPosition({ 134, 450 });
-				Button leaderboard("Leaderboard", { 100, 60 }, 16, sf::Color::Color(0, 12, 123), sf::Color::White);
+				Button leaderboard(window, "Leaderboard", { 100, 60 }, 16, sf::Color::Color(0, 12, 123), sf::Color::White);
 				leaderboard.setFont(font);
 				leaderboard.setPosition({ 267, 450 });
-				Button exit("Exit", { 100, 60 }, 16, sf::Color::Color(0, 12, 123), sf::Color::White);
+				Button exit(window, "Exit", { 100, 60 }, 16, sf::Color::Color(0, 12, 123), sf::Color::White);
 				exit.setFont(font);
 				exit.setPosition({ 400, 450 });
 				while (window->pollEvent(event))
