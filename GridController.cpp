@@ -185,7 +185,6 @@ void GridController::Mix()
 	}
 }
 void GridController::Hint(){
-	int hintCounter = 0;
 	for (int y = 0; y < 9; y++)
 	{
 		for (int x = 0; x < 9; x++)
@@ -199,6 +198,10 @@ void GridController::Hint(){
 		}
 
 	}
+}
+
+void GridController::SaveResult() {
+	
 }
 
 void GridController::Transposion()

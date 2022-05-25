@@ -15,15 +15,27 @@ private:
 	sf::RectangleShape shape;
 	sf::Texture texture; 
 	sf::Font font; 
+	sf::RectangleShape button;
+	sf::Text text;
+
+	int btnWidth;
+	int btnHeight;
 
 public:
+	void setBackColor(sf::Color color);
+	void setFont(sf::Font& fonts);
+	void setTextColor(sf::Color color);
+	void setPosition(sf::Vector2f point);
+	void drawTo(sf::RenderWindow& window);
+	bool isMouseOver(sf::RenderWindow& window);
+
 	Collider collider; 
 	Action Click; 
 	sf::Text caption; 
 
-	
 	Button() {}
 	Button(sf::RenderWindow* _window, sf::RenderStates* _renderStates, std::string _caption, sf::Vector2f pos, sf::Vector2f size);
+	Button(std::string btnText, sf::Vector2f buttonSize, int charSize, sf::Color bgColor, sf::Color textColor);
 
 	void ProcessEvent(sf::Event event); 
 

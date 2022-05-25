@@ -1,10 +1,28 @@
 #include "Initilize.h"
 
+	void Initialize::LoadTitleFont(sf::Font& font)
+	{
+		if (!font.loadFromFile(fontPath + fontNameBold)) {
+			std::cerr << "Loading title font failed!" << std::endl;
+		}
+	}
+
 	void Initialize::LoadFont(sf::Font& font)
 	{
-		if (font.loadFromFile(fontPath + fontNameBold)) {
-			std::cout << "Loaded Font successful!" << std::endl;
+		if (!font.loadFromFile(fontPath + fontName)) {
+			std::cerr << "Loading font failed!" << std::endl;
 		}
+	}
+
+	void Initialize::SetWindowIcon(sf::Window* window)
+	{
+		sf::Image icon;
+		if (!icon.loadFromFile(imagesPath + iconImage))
+		{
+			std::cerr << ".Error while loading window icon" << std::endl;
+			return;
+		}
+		window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	}
 
 	void Initialize::SetWinText(const sf::Font& font, sf::Text* winText)
@@ -37,6 +55,14 @@
 		hintButton->Click += bind(&GridController::Hint, gridC);
 		objectsToDraw.push_back(hintButton);
 		return hintButton;
+	}
+
+	Button* Initialize::DrawSaveResultsButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*>& objectsToDraw)
+	{
+		Button* saveResultButton = new Button(window, renderStates, "Save Result", sf::Vector2f(1000, 350), sf::Vector2f(200, 64));
+		saveResultButton->Click += bind(&GridController::SaveResult, gridC);
+		objectsToDraw.push_back(saveResultButton);
+		return saveResultButton;
 	}
 
 	void Initialize::SetsOutline(sf::RectangleShape & line1, sf::RectangleShape & line2, sf::RectangleShape & line3, sf::RectangleShape & line4)

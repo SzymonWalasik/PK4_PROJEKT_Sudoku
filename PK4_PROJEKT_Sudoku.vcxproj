@@ -167,6 +167,7 @@
     <ClCompile Include="GridController.cpp" />
     <ClCompile Include="IDrawable.cpp" />
     <ClCompile Include="Initialize.cpp" />
+    <ClCompile Include="Menu.cpp" />
     <ClCompile Include="zrodlo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -179,6 +180,7 @@
     <ClInclude Include="GridController.h" />
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="Initilize.h" />
+    <ClInclude Include="Menu.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

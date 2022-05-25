@@ -16,6 +16,8 @@ private:
 	sf::Text* winText;
 
 	Cell* matrix[9][9]; 
+
+	int hintCounter = 0;
 	
 	void Transposion(); 
 	void SwapRowsSmall(); 
@@ -37,5 +39,7 @@ public:
 	void ChangeDifficult(); 
 
 	void Hint();
+
+	void SaveResult();
 };
 
