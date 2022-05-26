@@ -8,8 +8,8 @@
 using namespace std;
 using namespace placeholders;
 
-vector<IDrawable*> objectsToDraw;
 
+vector<IDrawable*> objectsToDraw;
 int main()
 {
 	//sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Sudoku");  

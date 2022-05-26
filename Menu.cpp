@@ -1,5 +1,7 @@
 #include "Menu.h"
 
+extern std::vector<IDrawable*> objectsToDraw;
+
 template <typename T>
 std::string toString(T arg)
 {
@@ -14,7 +16,7 @@ Menu::Menu():
 
 
 void Menu::init() {
-	
+
 	int points = 0;
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Sudoku");
 	sf::RenderStates* renderStates = new sf::RenderStates(); 
@@ -127,22 +129,22 @@ void Menu::init() {
 						}
 						case sf::Event::MouseButtonPressed:
 						{
-							if (play.isMouseOver(refWindow)) {
+							if (play.isMouseOver()) {
 								MenuState = 3;
 							}
-							if (scoreTable.isMouseOver(refWindow)) {
+							if (scoreTable.isMouseOver()) {
 								MenuState = 2;
 							}
-							if (exit.isMouseOver(refWindow)) {
+							if (exit.isMouseOver()) {
 								window->close();
 							}
 						}
 					}
 					window->clear(sf::Color::White);
 					window->draw(fail);
-					play.drawTo(refWindow);
-					scoreTable.drawTo(refWindow);
-					exit.drawTo(refWindow);
+					play.drawTo();
+					scoreTable.drawTo();
+					exit.drawTo();
 					window->display();
 				}
 				break;
@@ -156,11 +158,77 @@ void Menu::init() {
 			}
 			case 3:
 			{
-				//Gra
-				//Game* game = new Game(window);
-				//points=game->init();
-				MenuState = 4;
-				std::cout << points << std::endl;
+				// set the grid controller 
+				// this controler draws cells and generate numbers
+				GridController* gridC = new GridController(window, renderStates, winText);
+
+				// draws outline
+					sf::RectangleShape line1(sf::Vector2f(9 * 64, 4));
+					sf::RectangleShape line2(sf::Vector2f(9 * 64, 4));
+					sf::RectangleShape line3(sf::Vector2f(4, 9 * 64));
+					sf::RectangleShape line4(sf::Vector2f(4, 9 * 64));
+					Initialize::SetsOutline(line1, line2, line3, line4);
+
+					// draws buttons
+					Button* mixButton = Initialize::DrawMixButton(window, renderStates, gridC, objectsToDraw);
+					Button* difficultyButton = Initialize::DrawDifficultyButton(window, renderStates, gridC, objectsToDraw);
+					Button* hintButton = Initialize::DrawHintButton(window, renderStates, gridC, objectsToDraw);
+					Button* saveResults = Initialize::DrawSaveResultsButton(window, renderStates, gridC, objectsToDraw);
+					
+
+					while (window->isOpen()) 
+					{
+						sf::Event event; 
+						while (window->pollEvent(event)) 
+						{
+							if (event.type == sf::Event::Closed) 
+								window->close(); 
+
+							if (event.type == sf::Event::Resized) 
+							{
+								sf::FloatRect visibleArea = sf::FloatRect(0, 0, event.size.width, event.size.height); 
+								window->setView(sf::View(visibleArea)); 
+								
+								renderStates->transform = sf::Transform((float)(event.size.width) / 1280, 0, 0, 0, (float)(event.size.width) / 1280, 0, 0, 0, 1);
+							}
+
+							gridC->ProcessEvent(event); 
+							mixButton->ProcessEvent(event); 
+							difficultyButton->ProcessEvent(event); 
+							hintButton->ProcessEvent(event);
+							saveResults->ProcessEvent(event);
+
+							switch (gridC->difficultGame) 
+							{
+							case Difficult::Easy: 
+								difficultyButton->caption.setString("Easy");
+								break;
+							case Difficult::Normal:
+								difficultyButton->caption.setString("Normal");
+								break;
+							case Difficult::Hard:
+								difficultyButton->caption.setString("Hard");
+								break;
+							}
+						}
+
+						window->clear(sf::Color::White);
+
+						for (auto o : objectsToDraw)
+							o->Draw(); 
+						window->draw(line1, *renderStates); 
+						window->draw(line2, *renderStates);
+						window->draw(line3, *renderStates);
+						window->draw(line4, *renderStates);
+
+						window->draw(*winText, *renderStates); 
+
+						window->display(); 
+					}
+
+					for (auto o : objectsToDraw)
+						delete o;
+					objectsToDraw.clear();
 				break;
 			}
 			case 4:
@@ -185,21 +253,21 @@ void Menu::init() {
 						}
 						case sf::Event::MouseMoved:
 						{
-							if (play.isMouseOver(refWindow)) {
+							if (play.isMouseOver()) {
 								play.setBackColor(sf::Color::Color(255, 201, 14));
 								play.setTextColor(sf::Color::Black);
 							}
 							else {
 								play.setBackColor(sf::Color::Color(0, 12, 123));
 							}
-							if (leaderboard.isMouseOver(refWindow)) {
+							if (leaderboard.isMouseOver()) {
 								leaderboard.setBackColor(sf::Color::Color(255, 201, 14));
 								leaderboard.setTextColor(sf::Color::Black);
 							}
 							else {
 								leaderboard.setBackColor(sf::Color::Color(0, 12, 123));
 							}
-							if (exit.isMouseOver(refWindow)) {
+							if (exit.isMouseOver()) {
 								exit.setBackColor(sf::Color::Color(255, 201, 14));
 								exit.setTextColor(sf::Color::Black);
 							}
@@ -210,13 +278,13 @@ void Menu::init() {
 						}
 						case sf::Event::MouseButtonPressed:
 						{
-							if (play.isMouseOver(refWindow)) {
+							if (play.isMouseOver()) {
 								MenuState = 3;
 							}
-							if (leaderboard.isMouseOver(refWindow)) {
+							if (leaderboard.isMouseOver()) {
 								MenuState = 2;
 							}
-							if (exit.isMouseOver(refWindow)) {
+							if (exit.isMouseOver()) {
 								window->close();
 							}
 					}
@@ -227,9 +295,9 @@ void Menu::init() {
 					result.setPosition(355, 325);
 					window->draw(result);
 					window->draw(fail);
-					play.drawTo(refWindow);
-					leaderboard.drawTo(refWindow);
-					exit.drawTo(refWindow);
+					play.drawTo();
+					leaderboard.drawTo();
+					exit.drawTo();
 					window->display();
 				}
 				break;

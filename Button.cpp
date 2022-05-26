@@ -26,6 +26,7 @@ Button::Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f pos
 	collider.position = shape.getPosition(); 
 	collider.size = shape.getSize(); 
 }
+
 Button::Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f buttonSize, int charSize, sf::Color bgColor, sf::Color textColor) {
 	window = _window;
 	shape.setSize(buttonSize);
@@ -59,20 +60,22 @@ void Button::setPosition(sf::Vector2f point) {
 	caption.setPosition(xPos, yPos);
 }
 
-void Button::drawTo(sf::RenderWindow& window) {
-	window.draw(shape);
-	window.draw(caption);
+void Button::drawTo() {
+	window->draw(shape);
+	window->draw(caption);
 }
 
-bool Button::isMouseOver(sf::RenderWindow& window) {
-	int mouseX = sf::Mouse::getPosition(window).x;
-	int mouseY = sf::Mouse::getPosition(window).y;
+bool Button::isMouseOver() {
+	sf::RenderWindow& refWindow = *window;
+
+	int mouseX = sf::Mouse::getPosition(refWindow).x;
+	int mouseY = sf::Mouse::getPosition(refWindow).y;
 
 	int btnPosX = shape.getPosition().x;
 	int btnPosY = shape.getPosition().y;
 
-	int btnxPosWidth = shape.getPosition().x + btnWidth;
-	int btnyPosHeight = shape.getPosition().y + btnHeight;
+	int btnxPosWidth = shape.getPosition().x + shape.getSize().x;
+	int btnyPosHeight = shape.getPosition().y + shape.getSize().y;
 
 	if (mouseX < btnxPosWidth && mouseX > btnPosX && mouseY < btnyPosHeight && mouseY > btnPosY) {
 		return true;
