@@ -10,14 +10,16 @@ std::string toString(T arg)
 	return ss.str();
 }
 
-Menu::Menu() :MenuState(0) {};
+Menu::Menu():
+	MenuState(0)
+{};
 
 
 void Menu::init() {
 
 	int points = 0;
-	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(640, 640), "Sudoku");
-	sf::RenderStates* renderStates = new sf::RenderStates();
+	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Sudoku");
+	sf::RenderStates* renderStates = new sf::RenderStates(); 
 	sf::RenderWindow& refWindow = *window;
 
 	// set font and window text
@@ -29,9 +31,6 @@ void Menu::init() {
 	// set window icon
 	Initialize::SetWindowIcon(window);
 
-	// set background
-	Initialize::SetBackground(window);
-
 	// set font
 	sf::Font font;
 	Initialize::LoadFont(font);
@@ -39,22 +38,22 @@ void Menu::init() {
 	sf::View view = window->getView();
 	sf::Event event;
 	sf::String playerInput;
-	sf::Text playerText("", font, 24);
-	sf::Text login("Player name:", font, 24);
-	sf::Text fail("", font, 22);
-	sf::Text press("(Press Enter to confirm)", font, 10);
-	sf::Text score(("Score: "), font, 24);
+	sf::Text playerText("",font,24);
+	sf::Text login("Player name:",font,24);
+	sf::Text fail("",font,22);
+	sf::Text press("(Press Enter to confirm)",font,10);
+	sf::Text score(("Score: "), font,24);
 
 	playerText.setPosition(275, 125);
 	login.setPosition(125, 125);
 	score.setPosition(270, 125);
 	fail.setPosition(125, 265);
 	press.setPosition(260, 165);
-	playerText.setFillColor(sf::Color::Black);
-	login.setFillColor(sf::Color::Black);
-	score.setFillColor(sf::Color::Black);
-	fail.setFillColor(sf::Color::Black);
-	press.setFillColor(sf::Color::Black);
+	playerText.setFillColor(sf::Color::Blue);
+	login.setFillColor(sf::Color::Blue);
+	score.setFillColor(sf::Color::Blue);
+	fail.setFillColor(sf::Color::Blue);
+	press.setFillColor(sf::Color::Blue);
 
 	window->draw(login);
 	window->draw(press);
