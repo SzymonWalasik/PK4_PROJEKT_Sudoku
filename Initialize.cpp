@@ -25,6 +25,20 @@
 		window->setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
 	}
 
+	void Initialize::SetBackground(sf::Window* window) {
+		sf::Texture texture;
+		if (!texture.loadFromFile(imagesPath+backgroundImage)) {
+			std::cerr << ".Error while loading image" << std::endl;
+			return;
+		}
+		
+		sf::Sprite sprite;
+		sprite.setTexture(texture);
+		sprite.setPosition(0, 0);
+		texture.loadFromFile(imagesPath + backgroundImage);
+
+	}
+
 	void Initialize::SetWinText(const sf::Font& font, sf::Text* winText)
 	{
 		winText->setFont(font);
