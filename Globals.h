@@ -9,7 +9,6 @@ const std::string fontName = "OpenSans-Regular.ttf";
 const std::string fontNameBold = "OpenSans-Bold.ttf";
 const std::string cellImage = "Cell1.png";
 const std::string iconImage = "sudokuIcon.png";
-const std::string backgroundImage = "sudokuBackground.jpg";
 
 const int upperLeftCornerX = 100;
 const int upperLeftCornerY = 50;

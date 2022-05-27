@@ -17,8 +17,6 @@ static class Initialize
 
 		static void SetWindowIcon(sf::Window* window);
 
-		static void SetBackground(sf::Window* window);
-
 		static void SetWinText(const sf::Font& font, sf::Text* winText);
 
 		static Button* DrawDifficultyButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*> & objectsToDraw);
