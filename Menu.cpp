@@ -14,7 +14,6 @@ Menu::Menu() :MenuState(0) {};
 
 void Menu::init()
 {
-
 	int points = 0;
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Sudoku");
 	sf::RenderStates* renderStates = new sf::RenderStates();
