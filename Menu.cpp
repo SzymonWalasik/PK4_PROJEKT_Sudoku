@@ -29,7 +29,7 @@ void Menu::init()
 	Initialize::SetWindowIcon(window);
 
 	// set background
-	Initialize::SetBackground(window);
+	// Initialize::SetBackground(window);
 
 	// set font
 	sf::Font font;
@@ -129,22 +129,22 @@ void Menu::init()
 				}
 				case sf::Event::MouseButtonPressed:
 				{
-					if (play.isMouseOver(refWindow)) {
+					if (play.isMouseOver()) {
 						MenuState = 3;
 					}
-					if (scoreTable.isMouseOver(refWindow)) {
+					if (scoreTable.isMouseOver()) {
 						MenuState = 2;
 					}
-					if (exit.isMouseOver(refWindow)) {
+					if (exit.isMouseOver()) {
 						window->close();
 					}
 				}
 				}
 				window->clear(sf::Color::White);
 				window->draw(fail);
-				play.drawTo(refWindow);
-				scoreTable.drawTo(refWindow);
-				exit.drawTo(refWindow);
+				play.drawTo();
+				scoreTable.drawTo();
+				exit.drawTo();
 				window->display();
 			}
 			break;
@@ -189,21 +189,21 @@ void Menu::init()
 				}
 				case sf::Event::MouseMoved:
 				{
-					if (play.isMouseOver(refWindow)) {
+					if (play.isMouseOver()) {
 						play.setBackColor(sf::Color::Color(255, 201, 14));
 						play.setTextColor(sf::Color::Black);
 					}
 					else {
 						play.setBackColor(sf::Color::Color(0, 12, 123));
 					}
-					if (leaderboard.isMouseOver(refWindow)) {
+					if (leaderboard.isMouseOver()) {
 						leaderboard.setBackColor(sf::Color::Color(255, 201, 14));
 						leaderboard.setTextColor(sf::Color::Black);
 					}
 					else {
 						leaderboard.setBackColor(sf::Color::Color(0, 12, 123));
 					}
-					if (exit.isMouseOver(refWindow)) {
+					if (exit.isMouseOver()) {
 						exit.setBackColor(sf::Color::Color(255, 201, 14));
 						exit.setTextColor(sf::Color::Black);
 					}
@@ -214,13 +214,13 @@ void Menu::init()
 				}
 				case sf::Event::MouseButtonPressed:
 				{
-					if (play.isMouseOver(refWindow)) {
+					if (play.isMouseOver()) {
 						MenuState = 3;
 					}
-					if (leaderboard.isMouseOver(refWindow)) {
+					if (leaderboard.isMouseOver()) {
 						MenuState = 2;
 					}
-					if (exit.isMouseOver(refWindow)) {
+					if (exit.isMouseOver()) {
 						window->close();
 					}
 				}
@@ -231,9 +231,9 @@ void Menu::init()
 				result.setPosition(355, 325);
 				window->draw(result);
 				window->draw(fail);
-				play.drawTo(refWindow);
-				leaderboard.drawTo(refWindow);
-				exit.drawTo(refWindow);
+				play.drawTo();
+				leaderboard.drawTo();
+				exit.drawTo();
 				window->display();
 			}
 			break;
