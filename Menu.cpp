@@ -15,7 +15,7 @@ Menu::Menu() :MenuState(0) {};
 void Menu::init()
 {
 	int points = 0;
-	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(640, 640), "Sudoku");
+	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Sudoku");
 	sf::RenderStates* renderStates = new sf::RenderStates();
 	sf::RenderWindow& refWindow = *window;
 
@@ -130,10 +130,10 @@ void Menu::init()
 				case sf::Event::MouseButtonPressed:
 				{
 					if (play.isMouseOver()) {
-						MenuState = 3;
+						MenuState = 2;
 					}
 					if (scoreTable.isMouseOver()) {
-						MenuState = 2;
+						MenuState = 3;
 					}
 					if (exit.isMouseOver()) {
 						window->close();
@@ -151,9 +151,78 @@ void Menu::init()
 		}
 		case 2:
 		{
-			//Wyœwietlenie tabeli rekordów globalnej dla guest
-			//TODO: Wyœwietlenie tabeli rekordów dla guesta oraz zalogowanego
-			//U¿yæ Filesystem + ranges
+			// set the grid controller 
+			// this controler draws cells and generate numbers
+			GridController* gridC = new GridController(window, renderStates, winText);
+
+			// draws outline
+			sf::RectangleShape line1(sf::Vector2f(9 * 64, 4));
+			sf::RectangleShape line2(sf::Vector2f(9 * 64, 4));
+			sf::RectangleShape line3(sf::Vector2f(4, 9 * 64));
+			sf::RectangleShape line4(sf::Vector2f(4, 9 * 64));
+			Initialize::SetsOutline(line1, line2, line3, line4);
+
+			// draws buttons
+			Button* mixButton = Initialize::DrawMixButton(window, renderStates, gridC, objectsToDraw);
+			Button* difficultyButton = Initialize::DrawDifficultyButton(window, renderStates, gridC, objectsToDraw);
+			Button* hintButton = Initialize::DrawHintButton(window, renderStates, gridC, objectsToDraw);
+			Button* saveResults = Initialize::DrawSaveResultsButton(window, renderStates, gridC, objectsToDraw);
+
+
+			while (window->isOpen())
+			{
+				sf::Event event;
+				while (window->pollEvent(event))
+				{
+					if (event.type == sf::Event::Closed)
+						window->close();
+
+					if (event.type == sf::Event::Resized)
+					{
+						sf::FloatRect visibleArea = sf::FloatRect(0, 0, event.size.width, event.size.height);
+						window->setView(sf::View(visibleArea));
+
+						renderStates->transform = sf::Transform((float)(event.size.width) / 1280, 0, 0, 0, (float)(event.size.width) / 1280, 0, 0, 0, 1);
+					}
+
+					gridC->ProcessEvent(event);
+					mixButton->ProcessEvent(event);
+					difficultyButton->ProcessEvent(event);
+					hintButton->ProcessEvent(event);
+					saveResults->ProcessEvent(event);
+
+					switch (gridC->difficultGame)
+					{
+					case Difficult::Easy:
+						difficultyButton->caption.setString("Easy");
+						break;
+					case Difficult::Normal:
+						difficultyButton->caption.setString("Normal");
+						break;
+					case Difficult::Hard:
+						difficultyButton->caption.setString("Hard");
+						break;
+					}
+				}
+
+				window->clear(sf::Color::White);
+
+				for (auto o : objectsToDraw)
+					o->Draw();
+				window->draw(line1, *renderStates);
+				window->draw(line2, *renderStates);
+				window->draw(line3, *renderStates);
+				window->draw(line4, *renderStates);
+
+				window->draw(*winText, *renderStates);
+
+				window->display();
+			}
+
+			for (auto o : objectsToDraw)
+				delete o;
+			objectsToDraw.clear();
+
 			break;
 		}
 		case 3:
