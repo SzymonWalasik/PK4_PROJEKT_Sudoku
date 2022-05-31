@@ -4,7 +4,6 @@
 #include "IDrawable.h"
 #include "Collider.h"
 #include <string>
-#include <iostream>
 #include "Globals.h"
 
 class Button : public IDrawable 

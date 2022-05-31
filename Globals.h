@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <iostream>
 
 const std::string fontPath = "Fonts/";
 const std::string imagesPath = "Images/";

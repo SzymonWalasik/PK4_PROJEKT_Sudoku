@@ -154,6 +154,7 @@ void Menu::init()
 			// set the grid controller 
 			// this controler draws cells and generate numbers
 			GridController* gridC = new GridController(window, renderStates, winText);
+			gridC->SetPlayer(Player(playerInput.toAnsiString()));
 
 			// draws outline
 			sf::RectangleShape line1(sf::Vector2f(9 * 64, 4));
@@ -166,8 +167,7 @@ void Menu::init()
 			Button* mixButton = Initialize::DrawMixButton(window, renderStates, gridC, objectsToDraw);
 			Button* difficultyButton = Initialize::DrawDifficultyButton(window, renderStates, gridC, objectsToDraw);
 			Button* hintButton = Initialize::DrawHintButton(window, renderStates, gridC, objectsToDraw);
-			Button* saveResults = Initialize::DrawSaveResultsButton(window, renderStates, gridC, objectsToDraw);
-
+			Button* exitGame = Initialize::DrawExitGameButton(window, renderStates, gridC, objectsToDraw);
 
 			while (window->isOpen())
 			{
@@ -189,7 +189,7 @@ void Menu::init()
 					mixButton->ProcessEvent(event);
 					difficultyButton->ProcessEvent(event);
 					hintButton->ProcessEvent(event);
-					saveResults->ProcessEvent(event);
+					exitGame->ProcessEvent(event);
 
 					switch (gridC->difficultGame)
 					{
@@ -202,6 +202,12 @@ void Menu::init()
 					case Difficult::Hard:
 						difficultyButton->caption.setString("Hard");
 						break;
+					}
+
+					if (gridC->shouldCloseApp)
+					{
+						MenuState = 3;
+						window->close();
 					}
 				}
 

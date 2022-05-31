@@ -7,9 +7,6 @@ GridController::GridController(sf::RenderWindow* _window, sf::RenderStates* _ren
 	window = _window;
 	renderStates = _renderStates;
 	winText = _winText;
-
-	difficultGame = Difficult::Easy;
-
 	
 	for (int y = 0; y < 9; y++)
 	{
@@ -122,6 +119,8 @@ void GridController::CheckWin()
 		{
 			if (!ele)
 				res = false;
+			else
+				scoreCounter++;
 		}
 	}
 
@@ -200,8 +199,13 @@ void GridController::Hint(){
 	}
 }
 
-void GridController::SaveResult() {
-	
+void GridController::ExitGame() {
+	shouldCloseApp = true;
+	std::ofstream outfile;
+	outfile.open("score.dat",std::ios::app);
+	_player.SetScore(scoreCounter);
+	outfile << _player;
+	outfile.close();
 }
 
 void GridController::Transposion()

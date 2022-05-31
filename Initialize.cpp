@@ -36,7 +36,7 @@
 
 	Button* Initialize::DrawDifficultyButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*> & objectsToDraw)
 	{
-		Button* difficultyButton = new Button(window, "Easy", sf::Vector2f(1000, 560), sf::Vector2f(200, 64), renderStates);
+		Button* difficultyButton = new Button(window, "Easy", sf::Vector2f(800, 350), sf::Vector2f(200, 64), renderStates);
 		difficultyButton->Click += bind(&GridController::ChangeDifficult, gridC);
 		objectsToDraw.push_back(difficultyButton);
 		return difficultyButton;
@@ -44,25 +44,25 @@
 
 	Button* Initialize::DrawMixButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*> & objectsToDraw)
 	{
-		Button* mixButton = new Button(window, "Mix", sf::Vector2f(1000, 490), sf::Vector2f(200, 64), renderStates);
+		Button* mixButton = new Button(window, "Mix", sf::Vector2f(800, 420), sf::Vector2f(200, 64), renderStates);
 		mixButton->Click += bind(&GridController::Mix, gridC);
 		objectsToDraw.push_back(mixButton);
 		return mixButton;
 	}
 	Button* Initialize::DrawHintButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*>& objectsToDraw)
 	{
-		Button* hintButton = new Button(window, "Hint", sf::Vector2f(1000, 420), sf::Vector2f(200, 64), renderStates);
+		Button* hintButton = new Button(window, "Hint", sf::Vector2f(800, 490), sf::Vector2f(200, 64), renderStates);
 		hintButton->Click += bind(&GridController::Hint, gridC);
 		objectsToDraw.push_back(hintButton);
 		return hintButton;
 	}
 
-	Button* Initialize::DrawSaveResultsButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*>& objectsToDraw)
+	Button* Initialize::DrawExitGameButton(sf::RenderWindow* window, sf::RenderStates* renderStates, GridController* gridC, vector<IDrawable*>& objectsToDraw)
 	{
-		Button* saveResultButton = new Button(window, "Save Result", sf::Vector2f(1000, 350), sf::Vector2f(200, 64), renderStates);
-		saveResultButton->Click += bind(&GridController::SaveResult, gridC);
-		objectsToDraw.push_back(saveResultButton);
-		return saveResultButton;
+		Button* exitGameButton = new Button(window, "Exit Game", sf::Vector2f(800, 560), sf::Vector2f(200, 64), renderStates);
+		exitGameButton->Click += bind(&GridController::ExitGame, gridC);
+		objectsToDraw.push_back(exitGameButton);
+		return exitGameButton;
 	}
 
 	void Initialize::SetsOutline(sf::RectangleShape & line1, sf::RectangleShape & line2, sf::RectangleShape & line3, sf::RectangleShape & line4)

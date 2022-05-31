@@ -1,6 +1,5 @@
 #include"Button.h"
 
-
 Button::Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f pos, sf::Vector2f size, sf::RenderStates* _renderStates)
 {
 	window = _window;
@@ -40,6 +39,7 @@ Button::Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f but
 	caption.setCharacterSize(charSize);
 	caption.setFillColor(textColor);
 }
+
 void Button::setFont(sf::Font& fonts) {
 	caption.setFont(fonts);
 }
