@@ -29,7 +29,7 @@ void Menu::init()
 	Initialize::SetWindowIcon(window);
 
 	// set background
-	// Initialize::SetBackground(window);
+	//Initialize::SetBackground(window);
 
 	// set font
 	sf::Font font;
@@ -44,20 +44,32 @@ void Menu::init()
 	sf::Text press("(Press Enter to confirm)", font, 10);
 	sf::Text score(("Score: "), font, 24);
 
-	playerText.setPosition(275, 125);
-	login.setPosition(125, 125);
+	playerText.setPosition(275, 425);
+	login.setPosition(125, 425);
 	score.setPosition(270, 125);
 	fail.setPosition(125, 265);
-	press.setPosition(260, 165);
-	playerText.setFillColor(sf::Color::Black);
-	login.setFillColor(sf::Color::Black);
-	score.setFillColor(sf::Color::Black);
-	fail.setFillColor(sf::Color::Black);
-	press.setFillColor(sf::Color::Black);
+	press.setPosition(260, 465);
+	playerText.setFillColor(sf::Color::White);
+	login.setFillColor(sf::Color::White);
+	score.setFillColor(sf::Color::White);
+	fail.setFillColor(sf::Color::White);
+	press.setFillColor(sf::Color::White);
 
 	window->draw(login);
 	window->draw(press);
-
+	
+	sf::Texture texture;		//ustawianie t³a
+	if (!texture.loadFromFile(imagesPath + BackgroundImage))
+	{
+		std::cerr << ".Error while loading background" << std::endl;
+		return;
+	}
+	sf::Sprite sprite;
+	sprite.setTexture(texture);
+	sprite.setPosition(0, 0);
+	window->draw(sprite);
+	window->display();
+	
 	while (window->isOpen())
 	{
 		switch (MenuState)
@@ -90,13 +102,14 @@ void Menu::init()
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				std::string t = playerInput.toAnsiString();
-				if ((std::regex_match(t, std::regex("[A-Za-z0-9]{4,12}"))) || t.empty()) {
+				if ((std::regex_match(t, std::regex("[A-Za-z0-9]{3,12}"))) || t.empty()) {
 					MenuState = 1;
 					fail.setString("");
 				}
 				else {
 					fail.setString("Wrong login! Introduce it one more time!");
-					window->clear(sf::Color::White);
+					window->clear(sf::Color::Black);
+					window->draw(sprite);
 					window->draw(login);
 					window->draw(press);
 					window->draw(playerText);
@@ -104,7 +117,8 @@ void Menu::init()
 				}
 			}
 			else {
-				window->clear(sf::Color::White);
+				window->clear(sf::Color::Black);
+				window->draw(sprite);
 				window->draw(login);
 				window->draw(press);
 				window->draw(playerText);
@@ -116,9 +130,9 @@ void Menu::init()
 		}
 		case 1:
 		{
-			Button play(window, "Play", sf::Vector2f(220, 300), sf::Vector2f(200, 64));
-			Button scoreTable(window, "Score table", sf::Vector2f(220, 400), sf::Vector2f(200, 64));
-			Button exit(window, "Exit", sf::Vector2f(220, 500), sf::Vector2f(200, 64));
+			Button play(window, "Play", sf::Vector2f(120, 400), sf::Vector2f(200, 64));
+			Button scoreTable(window, "Score table", sf::Vector2f(120, 500), sf::Vector2f(200, 64));
+			Button exit(window, "Exit", sf::Vector2f(120, 600), sf::Vector2f(200, 64));
 			while (window->pollEvent(event))
 			{
 				switch (event.type)
@@ -140,7 +154,7 @@ void Menu::init()
 					}
 				}
 				}
-				window->clear(sf::Color::White);
+				window->draw(sprite);
 				window->draw(fail);
 				play.drawTo();
 				scoreTable.drawTo();
