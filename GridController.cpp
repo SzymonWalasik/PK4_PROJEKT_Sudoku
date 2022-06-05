@@ -45,6 +45,11 @@ void GridController::ProcessEvent(sf::Event event)
 			{
 				if (matrix[y][x]->collider.IsPointInside(mousePos)) 
 				{
+					if ((matrix[y][x]->GetUserNumber() + 1) == matrix[y][x]->correctValue)
+					{
+						scoreCounter++;
+					}
+
 					int n = matrix[y][x]->GetUserNumber() + 1; 
 					if (n > 9) 
 						n = 0;
@@ -66,6 +71,10 @@ void GridController::ProcessEvent(sf::Event event)
 			{
 				if (matrix[y][x]->collider.IsPointInside(mousePos))
 				{
+					if ((matrix[y][x]->GetUserNumber() - 1) == matrix[y][x]->correctValue)
+					{
+						scoreCounter++;
+					}
 					int n = matrix[y][x]->GetUserNumber() - 1;
 					if (n < 0)
 						n = 9;
@@ -119,8 +128,6 @@ void GridController::CheckWin()
 		{
 			if (!ele)
 				res = false;
-			else
-				scoreCounter++;
 		}
 	}
 
@@ -202,8 +209,9 @@ void GridController::Hint(){
 void GridController::ExitGame() {
 	shouldCloseApp = true;
 	std::ofstream outfile;
-	outfile.open("score.dat",std::ios::app);
-	_player.SetScore(scoreCounter);
+	fs::create_directory("Score");
+	outfile.open("Score/score.dat", std::ios::app);
+	_player.SetScore(scoreCounter*10 - hintCounter*30);
 	outfile << _player;
 	outfile.close();
 }

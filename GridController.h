@@ -5,10 +5,13 @@
 #include <string>
 #include <functional>
 #include <fstream>
+#include <filesystem>
 #include "Cell.h"
 #include "Difficult.h"
 #include "IDrawable.h"
 #include "Player.h"
+
+namespace fs = std::filesystem;
 
 class GridController
 {
