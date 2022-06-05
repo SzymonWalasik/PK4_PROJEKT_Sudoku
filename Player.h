@@ -1,5 +1,7 @@
 #pragma once
 #include "Globals.h"
+#include "Cell.h"
+#include "GridController.h"
 
     class Player
     {
@@ -7,7 +9,6 @@
         Player(std::string name) : _name(name), _score(0) {}
         Player() : _score(0) {}
 
-        int GetScore() { return _score; }
         std::string GetName() { return _name; }
         void SetScore(int score) { _score = score; }
 

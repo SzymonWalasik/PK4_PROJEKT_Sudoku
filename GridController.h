@@ -52,5 +52,7 @@ public:
 	void Hint();
 
 	void ExitGame();
+
+	int GetCorrectlyFilledCells();
 };
 

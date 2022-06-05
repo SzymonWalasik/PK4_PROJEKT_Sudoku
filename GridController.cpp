@@ -205,11 +205,20 @@ void GridController::Hint(){
 
 	}
 }
-
+int GridController::GetCorrectlyFilledCells() {
+	for (int y = 0; y < 9; y++) {
+		for (int x = 0; x < 9; x++) {
+			if (matrix[y][x]->GetUserNumber() == matrix[y][x]->correctValue) {
+				scoreCounter++;
+			}
+		}
+	}
+	return scoreCounter;
+}
 void GridController::ExitGame() {
 	shouldCloseApp = true;
 	std::ofstream outfile;
-	fs::create_directory("Score");
+	fs::create_directory("Score");		// zastosowanie filesystem do stworzenia katalogu
 	outfile.open("Score/score.dat", std::ios::app);
 	_player.SetScore(scoreCounter*10 - hintCounter*30);
 	outfile << _player;
