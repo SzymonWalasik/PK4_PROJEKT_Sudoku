@@ -48,7 +48,7 @@ void Menu::init()
 
 	playerText.setPosition(275, 425);
 	login.setPosition(125, 425);
-	score.setPosition(100, 75);
+	score.setPosition(100, 50);
 	fail.setPosition(125, 265);
 	press.setPosition(260, 465);
 	playerText.setFillColor(sf::Color::White);

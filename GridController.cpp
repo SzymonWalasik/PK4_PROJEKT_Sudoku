@@ -96,8 +96,8 @@ void GridController::ShowScores(sf::Text& txt)
 
 	std::ifstream infile(pth);
 	std::string line;
-	int counter = 1;
-	while (std::getline(infile, line) && counter<11)
+	int counter = 0;
+	while (std::getline(infile, line) && counter<10)
 	{
 		txt.setPosition(100, 100+30*counter);
 		txt.setString(line);
