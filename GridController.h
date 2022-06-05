@@ -54,5 +54,7 @@ public:
 	void ExitGame();
 
 	int GetCorrectlyFilledCells();
+
+	void ShowScores(sf::Text& txt);
 };
 
