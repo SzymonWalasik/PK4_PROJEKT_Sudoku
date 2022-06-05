@@ -25,6 +25,10 @@ void Menu::init()
 	Initialize::LoadTitleFont(titleFont);
 	Initialize::SetWinText(titleFont, winText);
 
+	// set the grid controller 
+	// this controler draws cells and generate numbers
+	GridController* gridC = new GridController(window, renderStates, winText);
+
 	// set window icon
 	Initialize::SetWindowIcon(window);
 
@@ -36,21 +40,23 @@ void Menu::init()
 	sf::Event event;
 	sf::String playerInput;
 	sf::Text playerText("", font, 24);
+	sf::Text scoreText("", font, 24);
 	sf::Text login("Player name:", font, 24);
 	sf::Text fail("", font, 22);
 	sf::Text press("(Press Enter to confirm)", font, 10);
-	sf::Text score(("Score: "), font, 24);
+	sf::Text score(("Score: "), font, 44);
 
 	playerText.setPosition(275, 425);
 	login.setPosition(125, 425);
-	score.setPosition(270, 125);
+	score.setPosition(100, 75);
 	fail.setPosition(125, 265);
 	press.setPosition(260, 465);
 	playerText.setFillColor(sf::Color::White);
 	login.setFillColor(sf::Color::White);
-	score.setFillColor(sf::Color::White);
+	score.setFillColor(sf::Color::Black);
 	fail.setFillColor(sf::Color::White);
 	press.setFillColor(sf::Color::White);
+	scoreText.setFillColor(sf::Color::Black);
 
 	window->draw(login);
 	window->draw(press);
@@ -66,6 +72,25 @@ void Menu::init()
 	sprite.setPosition(0, 0);
 	window->draw(sprite);
 	window->display();
+
+	//Create buttons
+	Button play(window, "Play", sf::Vector2f(120, 400), sf::Vector2f(200, 64));
+	Button scoreTable(window, "Score table", sf::Vector2f(120, 500), sf::Vector2f(200, 64));
+	Button exit(window, "Exit", sf::Vector2f(120, 600), sf::Vector2f(200, 64));
+	Button exitFromScore(window, "Exit", sf::Vector2f(120, 600), sf::Vector2f(200, 64));
+
+	// draws outline
+	sf::RectangleShape line1(sf::Vector2f(9 * 64, 4));
+	sf::RectangleShape line2(sf::Vector2f(9 * 64, 4));
+	sf::RectangleShape line3(sf::Vector2f(4, 9 * 64));
+	sf::RectangleShape line4(sf::Vector2f(4, 9 * 64));
+	Initialize::SetsOutline(line1, line2, line3, line4);
+
+	// draws buttons
+	Button* mixButton = Initialize::DrawMixButton(window, renderStates, gridC, objectsToDraw);
+	Button* difficultyButton = Initialize::DrawDifficultyButton(window, renderStates, gridC, objectsToDraw);
+	Button* hintButton = Initialize::DrawHintButton(window, renderStates, gridC, objectsToDraw);
+	Button* exitGame = Initialize::DrawExitGameButton(window, renderStates, gridC, objectsToDraw);
 	
 	while (window->isOpen())
 	{
@@ -127,9 +152,7 @@ void Menu::init()
 		}
 		case 1:
 		{
-			Button play(window, "Play", sf::Vector2f(120, 400), sf::Vector2f(200, 64));
-			Button scoreTable(window, "Score table", sf::Vector2f(120, 500), sf::Vector2f(200, 64));
-			Button exit(window, "Exit", sf::Vector2f(120, 600), sf::Vector2f(200, 64));
+			window->setView(view);
 			while (window->pollEvent(event))
 			{
 				switch (event.type)
@@ -144,6 +167,7 @@ void Menu::init()
 						MenuState = 2;
 					}
 					if (scoreTable.isMouseOver()) {
+						window->clear(sf::Color::White);
 						MenuState = 3;
 					}
 					if (exit.isMouseOver()) {
@@ -162,79 +186,64 @@ void Menu::init()
 		}
 		case 2:
 		{
-			// set the grid controller 
-			// this controler draws cells and generate numbers
-			GridController* gridC = new GridController(window, renderStates, winText);
-			gridC->SetPlayer(Player(playerInput.toAnsiString()));
-
-			// draws outline
-			sf::RectangleShape line1(sf::Vector2f(9 * 64, 4));
-			sf::RectangleShape line2(sf::Vector2f(9 * 64, 4));
-			sf::RectangleShape line3(sf::Vector2f(4, 9 * 64));
-			sf::RectangleShape line4(sf::Vector2f(4, 9 * 64));
-			Initialize::SetsOutline(line1, line2, line3, line4);
-
-			// draws buttons
-			Button* mixButton = Initialize::DrawMixButton(window, renderStates, gridC, objectsToDraw);
-			Button* difficultyButton = Initialize::DrawDifficultyButton(window, renderStates, gridC, objectsToDraw);
-			Button* hintButton = Initialize::DrawHintButton(window, renderStates, gridC, objectsToDraw);
-			Button* exitGame = Initialize::DrawExitGameButton(window, renderStates, gridC, objectsToDraw);
-
-			while (window->isOpen())
-			{
-				sf::Event event;
-				while (window->pollEvent(event))
+				gridC->SetPlayer(Player(playerInput.toAnsiString()));
+				//window->setView(view);
+				//sf::Event event;
+				while (window->isOpen())
 				{
-					if (event.type == sf::Event::Closed)
-						window->close();
-
-					if (event.type == sf::Event::Resized)
+					while (window->pollEvent(event))
 					{
-						sf::FloatRect visibleArea = sf::FloatRect(0, 0, event.size.width, event.size.height);
-						window->setView(sf::View(visibleArea));
+						if (event.type == sf::Event::Closed)
+							window->close();
 
-						renderStates->transform = sf::Transform((float)(event.size.width) / 1280, 0, 0, 0, (float)(event.size.width) / 1280, 0, 0, 0, 1);
-					}
+						if (event.type == sf::Event::Resized)
+						{
+							sf::FloatRect visibleArea = sf::FloatRect(0, 0, event.size.width, event.size.height);
+							window->setView(sf::View(visibleArea));
 
-					gridC->ProcessEvent(event);
-					mixButton->ProcessEvent(event);
-					difficultyButton->ProcessEvent(event);
-					hintButton->ProcessEvent(event);
-					exitGame->ProcessEvent(event);
+							renderStates->transform = sf::Transform((float)(event.size.width) / 1280, 0, 0, 0, (float)(event.size.width) / 1280, 0, 0, 0, 1);
+						}
 
-					switch (gridC->difficultGame)
-					{
-					case Difficult::Easy:
-						difficultyButton->caption.setString("Easy");
-						break;
-					case Difficult::Normal:
-						difficultyButton->caption.setString("Normal");
-						break;
-					case Difficult::Hard:
-						difficultyButton->caption.setString("Hard");
-						break;
-					}
+						gridC->ProcessEvent(event);
+						mixButton->ProcessEvent(event);
+						difficultyButton->ProcessEvent(event);
+						hintButton->ProcessEvent(event);
+						exitGame->ProcessEvent(event);
 
-					if (gridC->shouldCloseApp)
-					{
-						MenuState = 3;
-						window->close();
+						switch (gridC->difficultGame)
+						{
+						case Difficult::Easy:
+							difficultyButton->caption.setString("Easy");
+							break;
+						case Difficult::Normal:
+							difficultyButton->caption.setString("Normal");
+							break;
+						case Difficult::Hard:
+							difficultyButton->caption.setString("Hard");
+							break;
+						}
+
+						if (gridC->shouldCloseApp)
+						{
+							MenuState = 1;
+							window->close();
+							break;
+						}
+
+						window->clear(sf::Color::White);
+
+						for (auto o : objectsToDraw)
+							o->Draw();
+						window->draw(line1, *renderStates);
+						window->draw(line2, *renderStates);
+						window->draw(line3, *renderStates);
+						window->draw(line4, *renderStates);
+
+						window->draw(*winText, *renderStates);
+
+						window->display();
 					}
 				}
-
-				window->clear(sf::Color::White);
-
-				for (auto o : objectsToDraw)
-					o->Draw();
-				window->draw(line1, *renderStates);
-				window->draw(line2, *renderStates);
-				window->draw(line3, *renderStates);
-				window->draw(line4, *renderStates);
-
-				window->draw(*winText, *renderStates);
-
-				window->display();
-			}
 
 			for (auto o : objectsToDraw)
 				delete o;
@@ -242,29 +251,11 @@ void Menu::init()
 
 			break;
 		}
+
 		case 3:
 		{
-			//Gra
-			//Game* game = new Game(window);
-			//points=game->init();
-			MenuState = 4;
-			//std::cout << points << std::endl;
-			//break;
-			//sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Sudoku");  
-
-
-		case 4:
-		{
 			window->setView(view);
-			Button play(window, "Play Again", { 100, 60 }, 16, sf::Color::Color(0, 12, 123), sf::Color::White);
-			play.setFont(font);
-			play.setPosition({ 134, 450 });
-			Button leaderboard(window, "Leaderboard", { 100, 60 }, 16, sf::Color::Color(0, 12, 123), sf::Color::White);
-			leaderboard.setFont(font);
-			leaderboard.setPosition({ 267, 450 });
-			Button exit(window, "Exit", { 100, 60 }, 16, sf::Color::Color(0, 12, 123), sf::Color::White);
-			exit.setFont(font);
-			exit.setPosition({ 400, 450 });
+
 			while (window->pollEvent(event))
 			{
 				switch (event.type)
@@ -273,59 +264,25 @@ void Menu::init()
 				{
 					window->close();
 				}
-				case sf::Event::MouseMoved:
-				{
-					if (play.isMouseOver()) {
-						play.setBackColor(sf::Color::Color(255, 201, 14));
-						play.setTextColor(sf::Color::Black);
-					}
-					else {
-						play.setBackColor(sf::Color::Color(0, 12, 123));
-					}
-					if (leaderboard.isMouseOver()) {
-						leaderboard.setBackColor(sf::Color::Color(255, 201, 14));
-						leaderboard.setTextColor(sf::Color::Black);
-					}
-					else {
-						leaderboard.setBackColor(sf::Color::Color(0, 12, 123));
-					}
-					if (exit.isMouseOver()) {
-						exit.setBackColor(sf::Color::Color(255, 201, 14));
-						exit.setTextColor(sf::Color::Black);
-					}
-					else {
-						exit.setBackColor(sf::Color::Color(0, 12, 123));
-					}
-					break;
-				}
 				case sf::Event::MouseButtonPressed:
 				{
-					if (play.isMouseOver()) {
-						MenuState = 3;
-					}
-					if (leaderboard.isMouseOver()) {
-						MenuState = 2;
-					}
 					if (exit.isMouseOver()) {
-						window->close();
+						MenuState = 1;
+						window->clear(sf::Color::White);
 					}
 				}
 				}
+
 				window->clear(sf::Color::White);
+				gridC->ShowScores(scoreText);
 				window->draw(score);
-				sf::Text result(toString<int>(points), font, 24);
-				result.setPosition(355, 325);
-				window->draw(result);
 				window->draw(fail);
-				play.drawTo();
-				leaderboard.drawTo();
+
 				exit.drawTo();
 				window->display();
 			}
 			break;
 		}
 		}
-		}
-
 	}
 }

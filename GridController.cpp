@@ -88,6 +88,24 @@ void GridController::ProcessEvent(sf::Event event)
 	}
 }
 
+
+void GridController::ShowScores(sf::Text& txt)
+{
+	fs::path pth = fs::current_path();
+	pth.append("Score\\score.dat");
+
+	std::ifstream infile(pth);
+	std::string line;
+	int counter = 1;
+	while (std::getline(infile, line) && counter<11)
+	{
+		txt.setPosition(100, 100+30*counter);
+		txt.setString(line);
+		window->draw(txt);
+		counter++;
+	}
+}
+
 void GridController::CheckWin()
 {
 	auto isCorrect = [&](Cell* cell)
