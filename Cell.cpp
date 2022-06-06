@@ -10,8 +10,6 @@ Cell::Cell(sf::RenderWindow* _window, sf::RenderStates* _renderStates, std::stri
 	image.loadFromFile(imagesPath + pathTexture);
 	texture.loadFromImage(image);
 
-	//texture.loadFromFile("Images/" + pathTexture);
-
 	shape = sf::RectangleShape(size);
 	shape.setTexture(&texture);
 	shape.setPosition(sf::Vector2f(0, 0));

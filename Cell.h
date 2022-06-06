@@ -34,13 +34,12 @@ public:
 
 	void SetPosition(sf::Vector2f newPos); 
 	void SetMatrixPosition(int y, int x);
-
 	void SetUserNumber(int value); 
 	int GetUserNumber(); 
 	void SetFail(bool state); 
-	bool IsFail(); 
-	void Lock();
-	void UnLock(); 
-	bool IsLock(); 
+	bool IsFail();	//zwraca informacje o poprawnoœci wpisanej wartoœci
+	void Lock();	//blokuje komórkê 
+	void UnLock();	//odblokowuje komórkê do wpisania wartoœci
+	bool IsLock();	//sprawdza czy komórka jest odgórnie wype³niona przez algorytm generacji sudoku
 };
 

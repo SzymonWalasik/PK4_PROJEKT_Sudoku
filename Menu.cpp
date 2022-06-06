@@ -2,37 +2,29 @@
 
 extern std::vector<IDrawable*> objectsToDraw;
 
-template <typename T>
-std::string toString(T arg)
-{
-	std::stringstream ss;
-	ss << arg;
-	return ss.str();
-}
+Menu::Menu() :MenuState(0) {};		//ustawiamy MenuState na 0
 
-Menu::Menu() :MenuState(0) {};
-
-void Menu::init()
+void Menu::init()	//funkcja obs³uguj¹ca ca³¹ grê
 {
 	int points = 0;
 	sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode(1280, 720), "Sudoku");
 	sf::RenderStates* renderStates = new sf::RenderStates();
 	sf::RenderWindow& refWindow = *window;
 
-	// set font and window text
+	// ustawiamy czcionkê i tekst
 	sf::Text* winText = new sf::Text();
 	sf::Font titleFont;
 	Initialize::LoadTitleFont(titleFont);
 	Initialize::SetWinText(titleFont, winText);
 
-	// set the grid controller 
-	// this controler draws cells and generate numbers
+	// ustawiamy GridController
+	// rysuje komórki i generuje wartoœci
 	GridController* gridC = new GridController(window, renderStates, winText);
 
-	// set window icon
+	// ustawiamy ikonê
 	Initialize::SetWindowIcon(window);
 
-	// set font
+	// ustawiamy czcionkê
 	sf::Font font;
 	Initialize::LoadFont(font);
 
@@ -73,26 +65,26 @@ void Menu::init()
 	window->draw(sprite);
 	window->display();
 
-	//Create buttons
+	// tworzenie guzików
 	Button play(window, "Play", sf::Vector2f(120, 400), sf::Vector2f(200, 64));
 	Button scoreTable(window, "Score table", sf::Vector2f(120, 500), sf::Vector2f(200, 64));
 	Button exit(window, "Exit", sf::Vector2f(120, 600), sf::Vector2f(200, 64));
 	Button exitFromScore(window, "Exit", sf::Vector2f(120, 600), sf::Vector2f(200, 64));
 
-	// draws outline
+	// rysowanie obwodu planszy
 	sf::RectangleShape line1(sf::Vector2f(9 * 64, 4));
 	sf::RectangleShape line2(sf::Vector2f(9 * 64, 4));
 	sf::RectangleShape line3(sf::Vector2f(4, 9 * 64));
 	sf::RectangleShape line4(sf::Vector2f(4, 9 * 64));
 	Initialize::SetsOutline(line1, line2, line3, line4);
 
-	// draws buttons
+	// rysowanie guzików
 	Button* mixButton = Initialize::DrawMixButton(window, renderStates, gridC, objectsToDraw);
 	Button* difficultyButton = Initialize::DrawDifficultyButton(window, renderStates, gridC, objectsToDraw);
 	Button* hintButton = Initialize::DrawHintButton(window, renderStates, gridC, objectsToDraw);
 	Button* exitGame = Initialize::DrawExitGameButton(window, renderStates, gridC, objectsToDraw);
 	
-	while (window->isOpen())
+	while (window->isOpen())	// obs³uga menu
 	{
 		switch (MenuState)
 		{
@@ -103,7 +95,7 @@ void Menu::init()
 			{
 				if (event.type == sf::Event::TextEntered)
 				{
-					if (((event.text.unicode <= 57 && event.text.unicode >= 48) || (event.text.unicode <= 91 && event.text.unicode >= 65) || (event.text.unicode >= 97 && event.text.unicode <= 122)) && playerInput.getSize() < 12)
+					if (((event.text.unicode <= 57 && event.text.unicode >= 48) || (event.text.unicode <= 91 && event.text.unicode >= 65) || (event.text.unicode >= 97 && event.text.unicode <= 122)) && playerInput.getSize() < 12)	//sprawdzamy poprawnoœæ wpisanego tekstu z klawiatury
 					{
 						playerInput += event.text.unicode;
 						playerText.setString(playerInput);
@@ -113,7 +105,7 @@ void Menu::init()
 					window->close();
 				}
 			}
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Backspace)) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Backspace)) {	//backspace usuwa wszystkie wprowadzone dotychczas znaki
 				if (!playerInput.isEmpty()) {
 					std::string t = playerInput.toAnsiString();
 					std::string newT = "";
@@ -124,7 +116,7 @@ void Menu::init()
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				std::string t = playerInput.toAnsiString();
-				if ((std::regex_match(t, std::regex("[A-Za-z0-9]{3,12}")))) {	//zastosowanie biblioteki regex- polega na walidacji has³a przy logowaniu na podstawie iloœci znaków oraz ogranicza wprowadzane symbole do liter i cyfr
+				if ((std::regex_match(t, std::regex("[A-Za-z0-9]{3,12}")))) {	//zastosowanie biblioteki regex- polega na walidacji has³a przy naciœniêciu Enter na podstawie iloœci znaków oraz ogranicza wprowadzane symbole do liter i cyfr
 					MenuState = 1;
 					fail.setString("");
 				}
@@ -187,8 +179,6 @@ void Menu::init()
 		case 2:
 		{
 				gridC->SetPlayer(Player(playerInput.toAnsiString()));
-				//window->setView(view);
-				//sf::Event event;
 				while (window->isOpen())
 				{
 					while (window->pollEvent(event))
@@ -225,7 +215,6 @@ void Menu::init()
 
 						if (gridC->shouldCloseApp)
 						{
-							MenuState = 1;
 							window->close();
 							break;
 						}

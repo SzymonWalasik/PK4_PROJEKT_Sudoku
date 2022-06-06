@@ -1,6 +1,6 @@
 #include"Button.h"
 
-Button::Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f pos, sf::Vector2f size, sf::RenderStates* _renderStates)
+Button::Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f pos, sf::Vector2f size, sf::RenderStates* _renderStates)	//stworzenie guzików jako obiekty
 {
 	window = _window;
 	renderStates = _renderStates;
@@ -31,7 +31,6 @@ Button::Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f but
 	shape.setSize(buttonSize);
 	shape.setFillColor(bgColor);
 
-	// Get these for later use:
 	btnWidth = buttonSize.x;
 	btnHeight = buttonSize.y;
 

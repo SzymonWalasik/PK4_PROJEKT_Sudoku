@@ -20,7 +20,7 @@ private:
 	sf::RenderStates* renderStates;
 	sf::Text* winText;
 
-	Cell* matrix[9][9]; 
+	Cell* matrix[9][9];		//macierz sudoku
 
 	int hintCounter = 0;
 	int scoreCounter = 0;
@@ -40,7 +40,7 @@ public:
 
 	GridController(sf::RenderWindow* _window, sf::RenderStates* _renderStates, sf::Text* _winText); 
 	
-	void ProcessEvent(sf::Event event); 
+	void ProcessEvent(sf::Event event);		//przetwarza zdarzenia tj. klikniêcie mysz¹ itd.
 
 	void SetPlayer(Player player) { _player = player; }
 

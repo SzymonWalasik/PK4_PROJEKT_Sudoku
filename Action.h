@@ -4,11 +4,11 @@
 using namespace std;
 
 
-class Action
+class Action        
 {
 private:
     void Empty();
-    vector<function<void()>> funcPtrs; 
+    vector<function<void()>> funcPtrs;      //zbiera wszystkie wskaüniki do funkcji click
 
 public:
     void operator()()

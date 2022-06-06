@@ -9,7 +9,7 @@
 class Button : public IDrawable 
 {
 private:
-	sf::RenderWindow* window; 
+	sf::RenderWindow* window;		//wska¿nik do okienka
 	sf::RenderStates* renderStates; 
 	sf::RectangleShape shape;
 	sf::Texture texture; 
@@ -28,7 +28,7 @@ public:
 
 	Collider collider; 
 	Action Click; 
-	sf::Text caption; 
+	sf::Text caption;	//napis
 
 	Button(sf::RenderWindow* _window, std::string _caption, sf::Vector2f pos, sf::Vector2f size, sf::RenderStates* _renderStates = nullptr);
 	Button(sf::RenderWindow* _window, std::string caption, sf::Vector2f buttonSize, int charSize, sf::Color bgColor, sf::Color textColor);

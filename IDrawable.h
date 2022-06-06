@@ -2,6 +2,6 @@
 class IDrawable
 {
 public:
-	virtual void Draw() {};
+	virtual void Draw() {};		//wirtualna funkcja odpowiedzialna za rysowanie obiektów
 };
 

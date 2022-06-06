@@ -1,8 +1,16 @@
 #include "GridController.h"
 
-extern std::vector<IDrawable*> objectsToDraw;
+extern std::vector<IDrawable*> objectsToDraw;	//ten obiekt jest zadeklarowany z Ÿródle
 
-GridController::GridController(sf::RenderWindow* _window, sf::RenderStates* _renderStates, sf::Text* _winText)
+template <typename T>
+std::string toString(T arg)		//konwersja typu na string
+{
+	std::stringstream ss;
+	ss << arg;
+	return ss.str();
+}
+
+GridController::GridController(sf::RenderWindow* _window, sf::RenderStates* _renderStates, sf::Text* _winText)	//konstruktor tworz¹cy kolejno wszystkie komórki macierzy
 {
 	window = _window;
 	renderStates = _renderStates;
@@ -28,11 +36,11 @@ GridController::GridController(sf::RenderWindow* _window, sf::RenderStates* _ren
 	Mix(); 
 }
 
-void GridController::ProcessEvent(sf::Event event)
+void GridController::ProcessEvent(sf::Event event)		//funkcja odpowiedzialna za wychwytywanie pozycji myszy oraz zmiany wartoœci wartoœci w komórkach macierzy
 {
 	sf::Vector2f mousePos = sf::Vector2f(sf::Mouse::getPosition(*window).x, sf::Mouse::getPosition(*window).y);
 
-	float f = 1 / *(renderStates->transform.getMatrix());
+	float f = 1 / *(renderStates->transform.getMatrix());	//funkcja OpenGL getMatrix() zwraca wskaŸnik na array, a zmienna f odpowiada za przekazanie wskaŸnika za pomoc¹ którego jesteœmy w stanie okreœliæ po³o¿enie myszy
 	mousePos = sf::Vector2f(f * (float)(mousePos.x), f * (float)(mousePos.y));
 
 	if (event.type == sf::Event::MouseButtonReleased &&		//inkrementacja wartosci w komorkach
@@ -90,31 +98,34 @@ void GridController::ProcessEvent(sf::Event event)
 
 void GridController::ShowScores(sf::Text& txt)
 {
-	fs::path pth = fs::current_path();
-	pth.append("Score\\score.dat");
+	fs::path pth = fs::current_path();		//zastosowanie filesystem do ustawienia œcie¿ki do pliku projektu
+	pth.append("Score\\score.dat");			//dodanie do aktualnej œcie¿ki adresu pliku przechowuj¹cego wyniki u¿ytkowników
 
 	std::ifstream infile(pth);
 	std::string line;
 	int counter = 0;
-	v_scores.clear();
+	v_scores.clear();						//przy ka¿dym odczycie z pliku czyœcimy go i zapisujemy wartoœci ponownie 
 
-	while (std::getline(infile, line) && counter<10)
+	while (std::getline(infile, line))	
 	{
 		AddScoresToVector(line);
-		counter++;
 	}
-	std::sort(v_scores.begin(), v_scores.end(),std::greater<>());
-	for (int i = 0; i < v_scores.size(); i++)
+	std::sort(v_scores.begin(), v_scores.end(),std::greater<>());	//sortujemy wektor na podstawie wyników uzyskanych przez graczy
+	for (int i = 0; i < v_scores.size(); i++)		//pêtla wypisuj¹ca top 10 wyników
 	{
+		if (counter > 9) {
+			break;
+		}
 		txt.setPosition(120, 110 + 30 * i);
 		txt.setString(v_scores[i].second);
 		window->draw(txt);
-		txt.setString(std::to_string(v_scores[i].first));
+		txt.setString(toString(v_scores[i].first));
 		txt.setPosition(250, 110 + 30 * i);
 		window->draw(txt);
+		counter++;
 	}
 }
-void GridController::AddScoresToVector(std::string line)
+void GridController::AddScoresToVector(std::string line)		//za³adowanie zawartoœci pliku wyników do wektora
 {
 	std::string str1;
 	std::string str2;
@@ -131,7 +142,7 @@ void GridController::AddScoresToVector(std::string line)
 
 void GridController::CheckWin()
 {
-	auto isCorrect = [&](Cell* cell)
+	auto isCorrect = [&](Cell* cell)		//funkcja lambda
 	{
 		int x = cell->GetXMatrixPosition();
 		int y = cell->GetYMatrixPosition();
@@ -141,17 +152,17 @@ void GridController::CheckWin()
 
 		for (int i = 0; i < 9; i++)
 		{
-			if (i != x && checkingNum == matrix[y][i]->GetUserNumber())
+			if (i != x && checkingNum == matrix[y][i]->GetUserNumber())		//sprawdzamy mo¿liwoœæ kolizji cyfr w kolumnie
 			{
 				matrix[y][x]->SetFail(true);
 				return false;
 			}
-			if (i != y && checkingNum == matrix[i][x]->GetUserNumber())
+			if (i != y && checkingNum == matrix[i][x]->GetUserNumber())		//sprawdzamy mo¿liwoœæ kolizji cyfr w wierszu
 			{
 				matrix[y][x]->SetFail(true);
 				return false;
 			}
-			if (((i / 3 + offsetY) != y || (i % 3 + offsetX) != x) &&
+			if (((i / 3 + offsetY) != y || (i % 3 + offsetX) != x) &&		//sprawdzamy mo¿liwoœæ kolizji cyfr w kwadracie 3x3
 				checkingNum == matrix[i / 3 + offsetY][i % 3 + offsetX]->GetUserNumber())
 			{
 				matrix[y][x]->SetFail(true);
@@ -163,9 +174,9 @@ void GridController::CheckWin()
 	};
 
 	bool res = true;
-	for (auto& row : matrix)
+	for (auto& row : matrix)		//sprawdzamy poprawnoœæ wszystkich komórek macierzy 
 	{
-		for (auto ele : row | std::views::transform(isCorrect))
+		for (auto ele : row | std::views::transform(isCorrect))		//zastosowanie ranges do porównania wpisanych wartoœci do poprawnych
 		{
 			if (!ele)
 				res = false;
@@ -196,7 +207,7 @@ void GridController::ChangeDifficult()		//kolejnosc poziomow trudnosci przy zmia
 void GridController::Mix()
 {
 	winText->setString("SUDOKU");
-	for (int y = 0; y < 9; y++) 
+	for (int y = 0; y < 9; y++)			//odblokowujemy wszystkie komórki i ustawiamy wartoœci na domyœlne (0)
 	{
 		for (int x = 0; x < 9; x++)
 		{
@@ -205,7 +216,7 @@ void GridController::Mix()
 		}
 	}
 
-	for (int i = 0; i < 15; i++) 
+	for (int i = 0; i < 15; i++)		//wykonujemy 15 operacji na macierzy w pseudo losowej kolejnoœci
 	{
 		switch (rand() % 5) 
 		{
@@ -219,7 +230,7 @@ void GridController::Mix()
 
 	int counterLocked = 0;
 	int randX, randY;
-	while (counterLocked < (int)difficultGame) 
+	while (counterLocked < (int)difficultGame)		//wype³nienie czêœci komórek na pocz¹tku rozgrywki
 	{
 		randX = rand() % 9; 
 		randY = rand() % 9;
@@ -246,7 +257,7 @@ void GridController::Hint(){
 
 	}
 }
-int GridController::GetCorrectlyFilledCells() {
+int GridController::GetCorrectlyFilledCells() {			// zwraca iloœæ poprawnie wype³nionych komórek
 	for (int y = 0; y < 9; y++) {
 		for (int x = 0; x < 9; x++) {
 			if (matrix[y][x]->GetUserNumber() == matrix[y][x]->correctValue) {
