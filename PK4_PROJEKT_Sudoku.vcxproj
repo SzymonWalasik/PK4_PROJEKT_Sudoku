@@ -182,7 +182,6 @@
     <ClInclude Include="IDrawable.h" />
     <ClInclude Include="Initilize.h" />
     <ClInclude Include="Menu.h" />
-    <ClInclude Include="Player.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
