@@ -2,7 +2,7 @@
 //#include "Cell.h"
 //#include "GridController.h"
 
-export module Player;
+export module Player;   //zastosowanie modu³u w celu wyeskportowania pliku Player.ixx oraz zaimportowaniu bibliotek
 import <iostream>;
 import <string>;
 import <fstream>;
