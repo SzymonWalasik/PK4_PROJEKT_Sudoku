@@ -152,11 +152,12 @@ void Menu::init()	//funkcja obs³uguj¹ca ca³¹ grê
 				case sf::Event::Closed:
 				{
 					window->close();
+					break;
 				}
+				
 				case sf::Event::MouseButtonPressed:
 				{
 					if (play.isMouseOver()) {
-						event.Closed();
 						MenuState = 2;
 					}
 					if (scoreTable.isMouseOver()) {
@@ -165,6 +166,7 @@ void Menu::init()	//funkcja obs³uguj¹ca ca³¹ grê
 					if (exit.isMouseOver()) {
 						window->close();
 					}
+					break;
 				}
 				}
 				window->draw(sprite);
@@ -178,6 +180,7 @@ void Menu::init()	//funkcja obs³uguj¹ca ca³¹ grê
 		}
 		case 2:
 		{
+				window->setView(view);
 				gridC->SetPlayer(Player(playerInput.toAnsiString()));
 				while (window->isOpen())
 				{

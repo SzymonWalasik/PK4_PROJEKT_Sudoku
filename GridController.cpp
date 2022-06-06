@@ -43,7 +43,7 @@ void GridController::ProcessEvent(sf::Event event)		//funkcja odpowiedzialna za 
 	float f = 1 / *(renderStates->transform.getMatrix());	//funkcja OpenGL getMatrix() zwraca wskaŸnik na array, a zmienna f odpowiada za przekazanie wskaŸnika za pomoc¹ którego jesteœmy w stanie okreœliæ po³o¿enie myszy
 	mousePos = sf::Vector2f(f * (float)(mousePos.x), f * (float)(mousePos.y));
 
-	if (event.type == sf::Event::MouseButtonReleased &&		//inkrementacja wartosci w komorkach
+	if (event.type == sf::Event::MouseButtonPressed &&		//inkrementacja wartosci w komorkach
 		event.key.code == sf::Mouse::Left) 
 	{
 		
