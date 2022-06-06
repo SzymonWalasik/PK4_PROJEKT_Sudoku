@@ -156,10 +156,10 @@ void Menu::init()	//funkcja obs³uguj¹ca ca³¹ grê
 				case sf::Event::MouseButtonPressed:
 				{
 					if (play.isMouseOver()) {
+						event.Closed();
 						MenuState = 2;
 					}
 					if (scoreTable.isMouseOver()) {
-						window->clear(sf::Color::White);
 						MenuState = 3;
 					}
 					if (exit.isMouseOver()) {
