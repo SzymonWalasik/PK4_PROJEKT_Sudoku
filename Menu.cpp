@@ -44,7 +44,7 @@ void Menu::init()
 	sf::Text login("Player name:", font, 24);
 	sf::Text fail("", font, 22);
 	sf::Text press("(Press Enter to confirm)", font, 10);
-	sf::Text score(("Score: "), font, 44);
+	sf::Text score(("Top 10 Scores: "), font, 44);
 
 	playerText.setPosition(275, 425);
 	login.setPosition(125, 425);
@@ -53,10 +53,10 @@ void Menu::init()
 	press.setPosition(260, 465);
 	playerText.setFillColor(sf::Color::White);
 	login.setFillColor(sf::Color::White);
-	score.setFillColor(sf::Color::Black);
+	score.setFillColor(sf::Color::White);
 	fail.setFillColor(sf::Color::White);
 	press.setFillColor(sf::Color::White);
-	scoreText.setFillColor(sf::Color::Black);
+	scoreText.setFillColor(sf::Color::White);
 
 	window->draw(login);
 	window->draw(press);
@@ -268,12 +268,12 @@ void Menu::init()
 				{
 					if (exit.isMouseOver()) {
 						MenuState = 1;
-						window->clear(sf::Color::White);
+						window->clear(sf::Color::Black);
 					}
 				}
 				}
 
-				window->clear(sf::Color::White);
+				window->clear(sf::Color::Black);
 				gridC->ShowScores(scoreText);
 				window->draw(score);
 				window->draw(fail);

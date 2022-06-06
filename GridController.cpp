@@ -88,7 +88,6 @@ void GridController::ProcessEvent(sf::Event event)
 	}
 }
 
-
 void GridController::ShowScores(sf::Text& txt)
 {
 	fs::path pth = fs::current_path();
@@ -99,7 +98,8 @@ void GridController::ShowScores(sf::Text& txt)
 	int counter = 0;
 	while (std::getline(infile, line) && counter<10)
 	{
-		txt.setPosition(100, 100+30*counter);
+		
+		txt.setPosition(120, 110+30*counter);
 		txt.setString(line);
 		window->draw(txt);
 		counter++;
@@ -233,6 +233,7 @@ int GridController::GetCorrectlyFilledCells() {
 	}
 	return scoreCounter;
 }
+
 void GridController::ExitGame() {
 	shouldCloseApp = true;
 	std::ofstream outfile;
