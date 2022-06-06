@@ -168,6 +168,7 @@
     <ClCompile Include="IDrawable.cpp" />
     <ClCompile Include="Initialize.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Player.ixx" />
     <ClCompile Include="zrodlo.cpp" />
   </ItemGroup>
   <ItemGroup>

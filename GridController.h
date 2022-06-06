@@ -9,7 +9,9 @@
 #include "Cell.h"
 #include "Difficult.h"
 #include "IDrawable.h"
-#include "Player.h"
+#include "Globals.h"
+//#include "Player.h"
+import Player;
 
 namespace fs = std::filesystem;
 
