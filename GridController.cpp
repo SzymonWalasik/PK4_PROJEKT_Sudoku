@@ -101,13 +101,19 @@ void GridController::ShowScores(sf::Text& txt)
 	while (std::getline(infile, line) && counter<10)
 	{
 		AddScoresToVector(line);
-		txt.setPosition(120, 110+30*counter);
-		txt.setString(line);
-		window->draw(txt);
 		counter++;
 	}
+	std::sort(v_scores.begin(), v_scores.end(),std::greater<>());
+	for (int i = 0; i < v_scores.size(); i++)
+	{
+		txt.setPosition(120, 110 + 30 * i);
+		txt.setString(v_scores[i].second);
+		window->draw(txt);
+		txt.setString(std::to_string(v_scores[i].first));
+		txt.setPosition(250, 110 + 30 * i);
+		window->draw(txt);
+	}
 }
-
 void GridController::AddScoresToVector(std::string line)
 {
 	std::string str1;
@@ -120,7 +126,7 @@ void GridController::AddScoresToVector(std::string line)
 
 	int score = std::stoi(str2);
 
-	v_scores.push_back(std::make_pair(str1, score));
+	v_scores.push_back(std::make_pair(score, str1));
 }
 
 void GridController::CheckWin()

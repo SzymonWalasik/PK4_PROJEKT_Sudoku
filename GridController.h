@@ -25,7 +25,7 @@ private:
 	int hintCounter = 0;
 	int scoreCounter = 0;
 	Player _player;
-	std::vector<std::pair<std::string, int>> v_scores;
+	std::vector<std::pair<int, std::string>> v_scores;
 	
 	void Transposion(); 
 	void SwapRowsSmall(); 

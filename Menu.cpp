@@ -124,7 +124,7 @@ void Menu::init()
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 				std::string t = playerInput.toAnsiString();
-				if ((std::regex_match(t, std::regex("[A-Za-z0-9]{3,12}"))) || t.empty()) {	//zastosowanie biblioteki regex- polega na walidacji has³a przy logowaniu na podstawie iloœci znaków oraz ogranicza wprowadzane symbole do liter i cyfr
+				if ((std::regex_match(t, std::regex("[A-Za-z0-9]{3,12}")))) {	//zastosowanie biblioteki regex- polega na walidacji has³a przy logowaniu na podstawie iloœci znaków oraz ogranicza wprowadzane symbole do liter i cyfr
 					MenuState = 1;
 					fail.setString("");
 				}
