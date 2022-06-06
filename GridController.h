@@ -25,6 +25,7 @@ private:
 	int hintCounter = 0;
 	int scoreCounter = 0;
 	Player _player;
+	std::vector<std::pair<std::string, int>> v_scores;
 	
 	void Transposion(); 
 	void SwapRowsSmall(); 
@@ -56,6 +57,8 @@ public:
 	int GetCorrectlyFilledCells();
 
 	void ShowScores(sf::Text& txt);
+
+	void AddScoresToVector(std::string line);
 
 };
 
